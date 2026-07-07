@@ -14,6 +14,10 @@ const tmpRoot = path.join(os.tmpdir(), `cloud-handoff-smoke-${process.pid}`);
 fs.rmSync(tmpRoot, { recursive: true, force: true });
 fs.mkdirSync(tmpRoot, { recursive: true });
 
+function processOutput(result) {
+  return result.stderr || result.stdout || result.error?.message || "Process failed without output.";
+}
+
 const result = spawnSync(
   process.execPath,
   [
@@ -36,7 +40,7 @@ const result = spawnSync(
 );
 
 if (result.status !== 0) {
-  process.stderr.write(result.stderr || result.stdout);
+  process.stderr.write(`${processOutput(result)}\n`);
   process.exit(result.status ?? 1);
 }
 
@@ -65,7 +69,7 @@ if (prompt.includes("sk-test-secret-value")) {
 const runnerPath = path.join(path.dirname(promptPath), "run-codex.sh");
 const shellCheck = spawnSync("zsh", ["-n", runnerPath], { encoding: "utf8" });
 if (shellCheck.status !== 0) {
-  process.stderr.write(shellCheck.stderr || shellCheck.stdout);
+  process.stderr.write(`${processOutput(shellCheck)}\n`);
   process.exit(shellCheck.status ?? 1);
 }
 
