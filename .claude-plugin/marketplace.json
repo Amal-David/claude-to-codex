@@ -1,0 +1,13 @@
+{
+  "name": "cloud-handoff",
+  "owner": {
+    "name": "Amal David"
+  },
+  "plugins": [
+    {
+      "name": "cloud-handoff",
+      "source": "./plugins/cloud-handoff",
+      "description": "Hand off an active Claude Code session to Codex."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "cloud-handoff",
+  "description": "Claude to Codex handoff command for Claude Code.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Amal David"
+  }
+}
