@@ -12,6 +12,7 @@ Claude to Codex is a command-backed Claude Code skill.
    - workspace path
    - hot context path
    - git snapshot path
+   - manifest path
    - transcript path
    - digest path
    - recent redacted transcript digest as deeper history
@@ -25,7 +26,8 @@ Claude to Codex is a command-backed Claude Code skill.
 The handoff package separates hot state from history:
 
 - `hot-context.md`: first-read working state: current goal, files touched, git summary, decisions, constraints, dead ends, verification signals, and next smallest action.
-- `git-snapshot.md`: cheap repo truth: branch, HEAD, `git status --short`, changed files, and diff stats. It intentionally avoids full diffs by default.
+- `git-snapshot.md`: cheap repo truth: branch, HEAD, capped `git status --short`, changed files, warnings, and diff stats. It intentionally avoids full diffs by default.
+- `handoff.json`: stable machine-readable metadata: file paths, options, transcript stats, git stats, warnings, artifact pointers, and preservation policy.
 - `digest.md`: recent transcript text and tool-use pointers.
 - raw Claude JSONL transcript: deeper history, read only by targeted line or slice when the hot context is ambiguous.
 
@@ -59,4 +61,4 @@ The fallback keeps `/handoff` useful even when Claude does not expose the sessio
 The slash command does not pass `$ARGUMENTS` to the shell. Advanced flags are supported through the
 direct Node CLI, where they are normal argv values.
 
-The hot context and digest redact common token shapes, and transcript-derived digest content is wrapped in an explicit untrusted-context boundary in the generated Codex prompt. This is defense in depth, not a guarantee. Users should treat Claude transcript files and handoff packages as sensitive local agent logs.
+The hot context, digest, and manifest redact common token shapes, and transcript-derived digest content is wrapped in an explicit untrusted-context boundary in the generated Codex prompt. Git capture is capped and does not include full diffs by default. This is defense in depth, not a guarantee. Users should treat Claude transcript files and handoff packages as sensitive local agent logs.

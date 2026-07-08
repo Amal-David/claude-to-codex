@@ -31,6 +31,12 @@ Restart Claude Code after installing.
 The standalone slash command is zero-argument for shell safety. Use the direct Node CLI for recovery
 flags such as `--session`, `--transcript`, `--mode print`, and `--tail`.
 
+Run a local diagnostic after installing:
+
+```bash
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --check
+```
+
 ## Plugin
 
 Plugin mode is best for teams and marketplace distribution. Plugin commands are namespaced by Claude Code, so the command becomes:
@@ -71,6 +77,7 @@ use a local checkout:
 cd /path/to/claude-to-codex
 npm run handoff -- --session <uuid>
 npm run handoff -- --transcript /absolute/path/to/session.jsonl
+npm run handoff -- --check
 ```
 
 Alternatively, install standalone mode alongside the plugin and use the standalone Node path for
@@ -79,3 +86,4 @@ advanced recovery commands.
 ## Versioning
 
 The plugin manifest has a `version`. Bump `plugins/claude-to-codex/.claude-plugin/plugin.json` for releases.
+See [Releases](releases.md) for the tag-triggered GitHub release workflow.

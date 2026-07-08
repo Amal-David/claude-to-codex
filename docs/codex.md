@@ -13,12 +13,16 @@ Codex receives:
 - current working directory
 - hot context path
 - git snapshot path
+- handoff manifest path
 - transcript path
 - digest path
 - recent digest
 - safety instructions
 - optional note
 - optional subagent budget
+
+Codex should read `hot-context.md` first, then use `handoff.json` for structured metadata and
+`git-snapshot.md`/`digest.md` for deeper pointers.
 
 ## Why interactive Codex
 
