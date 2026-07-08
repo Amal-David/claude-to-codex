@@ -1,5 +1,11 @@
 # Claude to Codex
 
+[![CI](https://github.com/Amal-David/claude-to-codex/actions/workflows/test.yml/badge.svg)](https://github.com/Amal-David/claude-to-codex/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-111827.svg)](LICENSE)
+![Node 22+](https://img.shields.io/badge/node-22%2B-339933.svg)
+![Claude Code](https://img.shields.io/badge/Claude%20Code-skill%20%2B%20plugin-6b7280.svg)
+![Codex CLI](https://img.shields.io/badge/Codex-CLI%20handoff-0ea5e9.svg)
+
 **Claude to Codex** handoff tooling for Claude Code users who want to move an active, context-heavy Claude session into an interactive Codex terminal session.
 
 Claude to Codex gives Claude Code a `/handoff` command. It packages the current Claude transcript, writes a compact redacted digest, and starts Codex with enough context to continue without replaying the whole conversation into the prompt.
@@ -11,6 +17,12 @@ Claude Code can run into context pressure or account limits during long engineer
 Claude to Codex is built around one principle:
 
 > Put durable context on disk, put only the handoff pointer plus compact digest in the Codex prompt, and make Codex verify current state before acting.
+
+## Screenshots
+
+![Claude to Codex help output](assets/screenshots/handoff-help.png)
+
+![Claude to Codex handoff package output](assets/screenshots/handoff-package.png)
 
 ## Install
 
@@ -180,12 +192,13 @@ codex login
 ## Repository layout
 
 ```text
-plugins/claude-to-codex/          Claude Code plugin
-standalone/                     Files installed for short /handoff command
-scripts/install-standalone.mjs  Installer for standalone mode
-docs/                           Architecture, install, subagent, token notes
-examples/codex-agents/          Optional Codex custom agent examples
-test/fixtures/                  Test Claude JSONL transcript
+plugins/claude-to-codex/         Claude Code plugin
+assets/screenshots/              README screenshots
+standalone/                      Files installed for short /handoff command
+scripts/install-standalone.mjs   Installer for standalone mode
+docs/                            Architecture, install, subagent, token notes
+examples/codex-agents/           Optional Codex custom agent examples
+test/fixtures/                   Test Claude JSONL transcript
 ```
 
 ## Docs

@@ -5,16 +5,40 @@
   "description": "Claude to Codex handoff command for Claude Code.",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amal-David/claude-to-codex.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Amal-David/claude-to-codex/issues"
+  },
+  "homepage": "https://github.com/Amal-David/claude-to-codex#readme",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "handoff": "node plugins/claude-to-codex/scripts/claude-to-codex.mjs",
     "install:standalone": "node scripts/install-standalone.mjs",
     "test": "node --check plugins/claude-to-codex/scripts/claude-to-codex.mjs && node --check scripts/install-standalone.mjs && node --check scripts/validate.mjs && node scripts/validate.mjs && node scripts/smoke-test.mjs"
   },
   "keywords": [
+    "claude-to-codex",
     "claude-code",
+    "claude-code-plugin",
+    "claude-code-skill",
+    "claude-plugin",
+    "claude-skill",
     "codex",
+    "codex-cli",
+    "openai-codex",
     "handoff",
+    "agent-handoff",
     "agent-skills",
+    "ai-agents",
+    "context-transfer",
+    "terminal-automation",
+    "developer-tools",
+    "llm-tools",
     "plugin"
   ],
   "bin": {

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Claude to Codex handoff package output</title>
+  <desc id="desc">A terminal screenshot showing Claude to Codex creating a handoff package with digest, prompt, runner, and manual run command.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#172033"/>
+      <stop offset="1" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#243247"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-20%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#020617" flood-opacity="0.42"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="720" fill="#e5e7eb"/>
+  <rect x="92" y="70" width="1096" height="580" rx="16" fill="url(#bg)" filter="url(#shadow)"/>
+  <rect x="92" y="70" width="1096" height="54" rx="16" fill="url(#bar)"/>
+  <rect x="92" y="108" width="1096" height="16" fill="#111827"/>
+  <circle cx="125" cy="97" r="7" fill="#ef4444"/>
+  <circle cx="151" cy="97" r="7" fill="#f59e0b"/>
+  <circle cx="177" cy="97" r="7" fill="#22c55e"/>
+  <text x="640" y="102" fill="#cbd5e1" font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="15" text-anchor="middle">handoff package</text>
+  <g font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="22">
+    <text x="132" y="168" fill="#94a3b8">$</text>
+    <text x="165" y="168" fill="#e5e7eb">npm run handoff -- --mode print --tail 80</text>
+    <text x="132" y="234" fill="#f8fafc">Codex handoff package created.</text>
+    <text x="132" y="286" fill="#38bdf8">- Transcript:</text>
+    <text x="322" y="286" fill="#cbd5e1">~/.claude/projects/-Users-amal-app/session.jsonl</text>
+    <text x="132" y="328" fill="#38bdf8">- Digest:</text>
+    <text x="322" y="328" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/digest.md</text>
+    <text x="132" y="370" fill="#38bdf8">- Prompt:</text>
+    <text x="322" y="370" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/codex-prompt.md</text>
+    <text x="132" y="412" fill="#38bdf8">- Runner:</text>
+    <text x="322" y="412" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/run-codex.sh</text>
+    <text x="132" y="454" fill="#38bdf8">- Launch:</text>
+    <text x="322" y="454" fill="#cbd5e1">not started (Launch disabled by mode.)</text>
+    <text x="132" y="526" fill="#f8fafc">Run manually:</text>
+    <text x="132" y="568" fill="#a7f3d0">zsh '~/.claude/handoffs/2026-07-08T04-50-latest/run-codex.sh'</text>
+    <text x="132" y="622" fill="#94a3b8">Digest stays compact; full transcript remains available by file path.</text>
+  </g>
+</svg>
