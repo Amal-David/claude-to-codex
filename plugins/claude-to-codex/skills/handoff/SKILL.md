@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Hand off a live Claude Code conversation to Codex by packaging the local Claude transcript, writing a compact digest, and launching or preparing an interactive Codex terminal session. Use when the user asks to continue in Codex, is hitting Claude limits, or wants a Claude to Codex handoff.
+description: Hand off a live Claude Code conversation to Codex by packaging the local Claude transcript, writing hot context, capturing git state, and launching or preparing an interactive Codex terminal session. Use when the user asks to continue in Codex, is hitting Claude limits, or wants a Claude to Codex handoff.
 ---
 
 # Handoff
@@ -21,4 +21,4 @@ plugin and you need options such as `--mode print`, `--session`, `--transcript`,
 node plugins/claude-to-codex/scripts/claude-to-codex.mjs --mode print
 ```
 
-Token rule: pass Codex the digest and transcript path, not a full pasted transcript. Let Codex read only the transcript slices it needs.
+Token rule: pass Codex hot context, git snapshot, digest, and transcript paths, not a full pasted transcript. Let Codex read only the transcript slices it needs.

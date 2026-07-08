@@ -1,5 +1,6 @@
 {"type":"system","timestamp":"2026-07-08T00:00:00.000Z","message":{"role":"system","content":"Claude Code session started."}}
 {"type":"user","timestamp":"2026-07-08T00:00:01.000Z","message":{"role":"user","content":"Build a handoff command. Secret sk-test-secret-value-123456 should be redacted."}}
 {"type":"assistant","timestamp":"2026-07-08T00:00:02.000Z","message":{"role":"assistant","content":[{"type":"text","text":"I will write a command-backed handoff skill."},{"type":"tool_use","name":"Bash","input":{"description":"Run tests","command":"npm test"}}]}}
+{"type":"assistant","timestamp":"2026-07-08T00:00:02.500Z","message":{"role":"assistant","content":"Decision: preserve hot context separately from history because dumping the whole transcript is wasteful. Known true: npm test passed. Failed: raw full-history handoff is too noisy; do not retry that path. Next action: update docs and verify the package."}}
 {"type":"user","timestamp":"2026-07-08T00:00:03.000Z","message":{"role":"user","content":[{"type":"tool_result","content":"tests passed"}]}}
 {"type":"assistant","timestamp":"2026-07-08T00:00:04.000Z","message":{"role":"assistant","content":"Done. Continue in Codex from here."}}

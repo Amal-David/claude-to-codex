@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
   <title id="title">Claude to Codex handoff package output</title>
-  <desc id="desc">A terminal screenshot showing Claude to Codex creating a handoff package with digest, prompt, runner, and manual run command.</desc>
+  <desc id="desc">A terminal screenshot showing Claude to Codex creating a handoff package with hot context, git snapshot, digest, prompt, runner, and manual run command.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#172033"/>
@@ -22,22 +22,26 @@
   <circle cx="151" cy="97" r="7" fill="#f59e0b"/>
   <circle cx="177" cy="97" r="7" fill="#22c55e"/>
   <text x="640" y="102" fill="#cbd5e1" font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="15" text-anchor="middle">handoff package</text>
-  <g font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="22">
+  <g font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="21">
     <text x="132" y="168" fill="#94a3b8">$</text>
     <text x="165" y="168" fill="#e5e7eb">npm run handoff -- --mode print --tail 80</text>
     <text x="132" y="234" fill="#f8fafc">Codex handoff package created.</text>
-    <text x="132" y="286" fill="#38bdf8">- Transcript:</text>
-    <text x="322" y="286" fill="#cbd5e1">~/.claude/projects/-Users-amal-app/session.jsonl</text>
-    <text x="132" y="328" fill="#38bdf8">- Digest:</text>
-    <text x="322" y="328" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/digest.md</text>
-    <text x="132" y="370" fill="#38bdf8">- Prompt:</text>
-    <text x="322" y="370" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/codex-prompt.md</text>
-    <text x="132" y="412" fill="#38bdf8">- Runner:</text>
-    <text x="322" y="412" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/run-codex.sh</text>
-    <text x="132" y="454" fill="#38bdf8">- Launch:</text>
-    <text x="322" y="454" fill="#cbd5e1">not started (Launch disabled by mode.)</text>
-    <text x="132" y="526" fill="#f8fafc">Run manually:</text>
-    <text x="132" y="568" fill="#a7f3d0">zsh '~/.claude/handoffs/2026-07-08T04-50-latest/run-codex.sh'</text>
-    <text x="132" y="622" fill="#94a3b8">Digest stays compact; full transcript remains available by file path.</text>
+    <text x="132" y="278" fill="#38bdf8">- Transcript:</text>
+    <text x="360" y="278" fill="#cbd5e1">~/.claude/projects/-Users-amal-app/session.jsonl</text>
+    <text x="132" y="316" fill="#38bdf8">- Hot context:</text>
+    <text x="360" y="316" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/hot-context.md</text>
+    <text x="132" y="354" fill="#38bdf8">- Git snapshot:</text>
+    <text x="360" y="354" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/git-snapshot.md</text>
+    <text x="132" y="392" fill="#38bdf8">- Digest:</text>
+    <text x="360" y="392" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/digest.md</text>
+    <text x="132" y="430" fill="#38bdf8">- Prompt:</text>
+    <text x="360" y="430" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/codex-prompt.md</text>
+    <text x="132" y="468" fill="#38bdf8">- Runner:</text>
+    <text x="360" y="468" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/run-codex.sh</text>
+    <text x="132" y="506" fill="#38bdf8">- Launch:</text>
+    <text x="360" y="506" fill="#cbd5e1">not started (Launch disabled by mode.)</text>
+    <text x="132" y="570" fill="#f8fafc">Run manually:</text>
+    <text x="132" y="608" fill="#a7f3d0">zsh '~/.claude/handoffs/2026-07-08T04-50-latest/run-codex.sh'</text>
+    <text x="132" y="640" fill="#94a3b8">Hot state stays compact; full transcript remains available by file path.</text>
   </g>
 </svg>

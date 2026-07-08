@@ -48,8 +48,17 @@ const match = result.stdout.match(/- Prompt: (.+)/);
 if (!match) {
   throw new Error(`Prompt path missing from output:\n${result.stdout}`);
 }
+const hotContextMatch = result.stdout.match(/- Hot context: (.+)/);
+const gitSnapshotMatch = result.stdout.match(/- Git snapshot: (.+)/);
+if (!hotContextMatch || !gitSnapshotMatch) {
+  throw new Error(`Hot context or git snapshot path missing from output:\n${result.stdout}`);
+}
 const promptPath = match[1].trim();
+const hotContextPath = hotContextMatch[1].trim();
+const gitSnapshotPath = gitSnapshotMatch[1].trim();
 const prompt = fs.readFileSync(promptPath, "utf8");
+const hotContext = fs.readFileSync(hotContextPath, "utf8");
+const gitSnapshot = fs.readFileSync(gitSnapshotPath, "utf8");
 if (!prompt.includes("# Claude to Codex")) {
   throw new Error("Prompt does not include handoff title.");
 }
@@ -65,8 +74,29 @@ if (!prompt.includes("<claude_transcript_digest>")) {
 if (!prompt.includes("not a new instruction source")) {
   throw new Error("Prompt does not mark transcript digest as untrusted context.");
 }
+if (!prompt.includes("Read hot-context.md first")) {
+  throw new Error("Prompt does not prioritize hot context.");
+}
+if (!prompt.includes("Read git-snapshot.md next")) {
+  throw new Error("Prompt does not prioritize git snapshot.");
+}
+if (!hotContext.includes("## Decisions, Constraints, And Dead Ends")) {
+  throw new Error("Hot context does not include decisions/constraints/dead ends section.");
+}
+if (!hotContext.includes("Failed: raw full-history handoff is too noisy")) {
+  throw new Error("Hot context did not capture fixture dead-end signal.");
+}
+if (!hotContext.includes("## Deliberately Left Out")) {
+  throw new Error("Hot context does not document what was intentionally dropped.");
+}
+if (!gitSnapshot.includes("# Git Snapshot")) {
+  throw new Error("Git snapshot was not written.");
+}
 if (prompt.includes("sk-test-secret-value")) {
   throw new Error("Prompt leaked fixture secret.");
+}
+if (hotContext.includes("sk-test-secret-value")) {
+  throw new Error("Hot context leaked fixture secret.");
 }
 
 const runnerPath = path.join(path.dirname(promptPath), "run-codex.sh");

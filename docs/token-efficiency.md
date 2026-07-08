@@ -4,6 +4,8 @@ Claude to Codex tries to save useful context without moving the entire Claude co
 
 ## Defaults
 
+- hot context: current goal, touched files, decisions, constraints, dead ends, verification signals, and next action
+- git snapshot: branch, HEAD, status, changed files, and diff stats
 - digest tail: 28 recent text turns and tool uses
 - full transcript: referenced by file path, not pasted
 - subagents: off by default
@@ -11,7 +13,7 @@ Claude to Codex tries to save useful context without moving the entire Claude co
 
 ## Why this works
 
-The most recent turns usually contain the current plan, blockers, and last verified state. Older context remains available in the transcript, but Codex only reads it when necessary.
+The hot context carries the working state Codex should read first. The digest keeps recent transcript pointers nearby. Older context remains available in the transcript, but Codex only reads it when necessary.
 
 ## When to increase the tail
 
@@ -51,7 +53,9 @@ Then exit Claude and run the printed `zsh .../run-codex.sh`.
 
 The generated prompt tells Codex to:
 
-- read the digest first
+- read `hot-context.md` first
+- read `git-snapshot.md` next
+- use `digest.md` for recent history pointers
 - inspect transcript slices only as needed
 - verify current PR, branch, file, test, and deployment state
 - avoid exposing secrets from transcripts

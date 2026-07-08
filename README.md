@@ -8,7 +8,7 @@
 
 **Claude to Codex** handoff tooling for Claude Code users who want to move an active, context-heavy Claude session into an interactive Codex terminal session.
 
-Claude to Codex gives Claude Code a `/handoff` command. It packages the current Claude transcript, writes a compact redacted digest, and starts Codex with enough context to continue without replaying the whole conversation into the prompt.
+Claude to Codex gives Claude Code a `/handoff` command. It packages the current Claude transcript, writes hot working context, captures a git snapshot, and starts Codex with enough context to continue without replaying the whole conversation into the prompt.
 
 ## Why
 
@@ -16,7 +16,7 @@ Claude Code can run into context pressure or account limits during long engineer
 
 Claude to Codex is built around one principle:
 
-> Put durable context on disk, put only the handoff pointer plus compact digest in the Codex prompt, and make Codex verify current state before acting.
+> Put durable context on disk, put only hot state plus pointers in the Codex prompt, and make Codex verify current state before acting.
 
 ## Screenshots
 
@@ -145,6 +145,8 @@ Each handoff creates:
 
 ```text
 ~/.claude/handoffs/<timestamp>-<session>/
+|-- hot-context.md
+|-- git-snapshot.md
 |-- digest.md
 |-- codex-prompt.md
 `-- run-codex.sh
@@ -153,6 +155,8 @@ Each handoff creates:
 The prompt points Codex to:
 
 - the current workspace
+- hot working context: current goal, touched files, decisions, constraints, dead ends, verification signals, and next action
+- a git snapshot: branch, HEAD, status, changed files, and diff stats
 - the Claude JSONL transcript
 - the compact digest
 - optional user note

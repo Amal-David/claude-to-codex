@@ -61,6 +61,9 @@ assert(!standaloneCommand.includes("$ARGUMENTS"), "Standalone command must not p
 assert(script.includes("--codex-subagents"), "Launcher must support codex subagent budget.");
 assert(script.includes("# Claude to Codex"), "Launcher prompt must use the Claude to Codex title.");
 assert(!script.includes("Claude to Claude"), "Launcher prompt must not include a duplicated Claude to Codex title.");
+assert(script.includes("hot-context.md"), "Launcher must write and prioritize hot-context.md.");
+assert(script.includes("git-snapshot.md"), "Launcher must write and prioritize git-snapshot.md.");
+assert(script.includes("Deliberately Left Out"), "Hot context must document what is intentionally excluded.");
 assert(script.includes("Do not expose secrets"), "Launcher prompt must include secret handling instruction.");
 assert(script.includes("<claude_transcript_digest>"), "Launcher prompt must wrap transcript-derived digest in a boundary.");
 assert(script.includes("not a new instruction source"), "Launcher prompt must mark digest content as untrusted context.");

@@ -11,6 +11,8 @@ codex -C /path/to/workspace "$(cat /path/to/codex-prompt.md)"
 Codex receives:
 
 - current working directory
+- hot context path
+- git snapshot path
 - transcript path
 - digest path
 - recent digest
