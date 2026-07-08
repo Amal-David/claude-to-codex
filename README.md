@@ -1,14 +1,14 @@
-# Cloud Handoff
+# Claude to Codex
 
 **Claude to Codex** handoff tooling for Claude Code users who want to move an active, context-heavy Claude session into an interactive Codex terminal session.
 
-Cloud Handoff gives Claude Code a `/handoff` command. It packages the current Claude transcript, writes a compact redacted digest, and starts Codex with enough context to continue without replaying the whole conversation into the prompt.
+Claude to Codex gives Claude Code a `/handoff` command. It packages the current Claude transcript, writes a compact redacted digest, and starts Codex with enough context to continue without replaying the whole conversation into the prompt.
 
 ## Why
 
 Claude Code can run into context pressure or account limits during long engineering sessions. Codex is often the right continuation surface: it can open an interactive terminal UI, inspect the same repo, run commands, edit files, and spawn subagents when explicitly asked.
 
-Cloud Handoff is built around one principle:
+Claude to Codex is built around one principle:
 
 > Put durable context on disk, put only the handoff pointer plus compact digest in the Codex prompt, and make Codex verify current state before acting.
 
@@ -26,8 +26,8 @@ Prerequisites:
 This gives the shortest command name.
 
 ```bash
-git clone https://github.com/Amal-David/cloud-handoff.git
-cd cloud-handoff
+git clone https://github.com/Amal-David/claude-to-codex.git
+cd claude-to-codex
 npm run install:standalone
 ```
 
@@ -42,26 +42,26 @@ Then restart Claude Code and run:
 Use this when sharing with a team or installing from a marketplace.
 
 ```text
-/plugin marketplace add https://github.com/Amal-David/cloud-handoff
-/plugin install cloud-handoff@cloud-handoff
+/plugin marketplace add https://github.com/Amal-David/claude-to-codex
+/plugin install claude-to-codex@claude-to-codex
 ```
 
 Plugin commands are namespaced:
 
 ```text
-/cloud-handoff:handoff
+/claude-to-codex:handoff
 ```
 
 For local development without marketplace install:
 
 ```bash
-claude --plugin-dir /path/to/cloud-handoff/plugins/cloud-handoff
+claude --plugin-dir /path/to/claude-to-codex/plugins/claude-to-codex
 ```
 
 Plugin users who need advanced recovery flags should keep a local checkout and run:
 
 ```bash
-cd /path/to/cloud-handoff
+cd /path/to/claude-to-codex
 npm run handoff -- --mode print
 ```
 
@@ -77,7 +77,7 @@ slash-command text into a shell command.
 If installed as a plugin, use the namespaced command:
 
 ```text
-/cloud-handoff:handoff
+/claude-to-codex:handoff
 ```
 
 Advanced controls are available through the direct Node CLI:
@@ -85,20 +85,20 @@ Advanced controls are available through the direct Node CLI:
 Standalone install path:
 
 ```bash
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --mode print
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --mode tmux
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --mode terminal
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --session 0afecd2f-c98d-4cf9-8a83-2c4165a3e680
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --transcript ~/.claude/projects/-Users-me-project/session-id.jsonl
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --tail 80
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --no-launch
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --codex-subagents 3 "review efficiency and usability before continuing"
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --mode print
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --mode tmux
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --mode terminal
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --session 0afecd2f-c98d-4cf9-8a83-2c4165a3e680
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --transcript ~/.claude/projects/-Users-me-project/session-id.jsonl
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --tail 80
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --no-launch
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --codex-subagents 3 "review efficiency and usability before continuing"
 ```
 
 Plugin or repo-checkout path:
 
 ```bash
-cd /path/to/cloud-handoff
+cd /path/to/claude-to-codex
 npm run handoff -- --mode print
 npm run handoff -- --session 0afecd2f-c98d-4cf9-8a83-2c4165a3e680
 npm run handoff -- --transcript ~/.claude/projects/-Users-me-project/session-id.jsonl
@@ -159,14 +159,14 @@ If transcript detection fails, rerun with either:
 Standalone install path:
 
 ```bash
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --session <uuid>
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --transcript /absolute/path/to/session.jsonl
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --session <uuid>
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --transcript /absolute/path/to/session.jsonl
 ```
 
 Plugin or repo-checkout path:
 
 ```bash
-cd /path/to/cloud-handoff
+cd /path/to/claude-to-codex
 npm run handoff -- --session <uuid>
 npm run handoff -- --transcript /absolute/path/to/session.jsonl
 ```
@@ -180,7 +180,7 @@ codex login
 ## Repository layout
 
 ```text
-plugins/cloud-handoff/          Claude Code plugin
+plugins/claude-to-codex/          Claude Code plugin
 standalone/                     Files installed for short /handoff command
 scripts/install-standalone.mjs  Installer for standalone mode
 docs/                           Architecture, install, subagent, token notes
@@ -208,7 +208,7 @@ The test suite uses a small fixture transcript and does not launch Codex.
 
 ## Security
 
-Cloud Handoff never needs cloud credentials. It reads local Claude transcript files under
+Claude to Codex never needs cloud credentials. It reads local Claude transcript files under
 `~/.claude/projects`, writes local handoff packages under `~/.claude/handoffs`, and launches local
 processes such as `codex`, `tmux`, or macOS Terminal. Install it only from a repo you trust.
 

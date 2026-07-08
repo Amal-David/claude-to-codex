@@ -1,21 +1,21 @@
 # Subagents
 
-Subagents are powerful but not free. They create separate model work, which can increase token usage and latency. Cloud Handoff therefore does not spawn subagents by default.
+Subagents are powerful but not free. They create separate model work, which can increase token usage and latency. Claude to Codex therefore does not spawn subagents by default.
 
 ## In Claude Code
 
 The plugin ships optional review agents:
 
-- `cloud-handoff:efficiency-reviewer`
-- `cloud-handoff:usability-reviewer`
-- `cloud-handoff:security-reviewer`
+- `claude-to-codex:efficiency-reviewer`
+- `claude-to-codex:usability-reviewer`
+- `claude-to-codex:security-reviewer`
 
 Use them when changing the handoff workflow or preparing a release.
 
 Example prompt in Claude Code:
 
 ```text
-Use the cloud-handoff efficiency, usability, and security reviewers to review this plugin. Wait for all three, then summarize only blocking findings.
+Use the claude-to-codex efficiency, usability, and security reviewers to review this plugin. Wait for all three, then summarize only blocking findings.
 ```
 
 ## In Codex
@@ -24,13 +24,13 @@ Codex only spawns subagents when explicitly asked. The slash command does not ac
 For advanced handoffs, run the direct Node CLI with a bounded subagent budget:
 
 ```bash
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --codex-subagents 3 "review this implementation before continuing"
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --codex-subagents 3 "review this implementation before continuing"
 ```
 
 Plugin or repo-checkout users can run the same option through the repo script:
 
 ```bash
-cd /path/to/cloud-handoff
+cd /path/to/claude-to-codex
 npm run handoff -- --codex-subagents 3 "review this implementation before continuing"
 ```
 

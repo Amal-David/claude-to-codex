@@ -1,5 +1,5 @@
 {
-  "name": "cloud-handoff",
+  "name": "claude-to-codex",
   "description": "Claude to Codex handoff command for Claude Code.",
   "version": "0.1.0",
   "author": {

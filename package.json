@@ -1,14 +1,14 @@
 {
-  "name": "cloud-handoff",
+  "name": "claude-to-codex",
   "version": "0.1.0",
   "private": false,
   "description": "Claude to Codex handoff command for Claude Code.",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "handoff": "node plugins/cloud-handoff/scripts/codex-handoff.mjs",
+    "handoff": "node plugins/claude-to-codex/scripts/claude-to-codex.mjs",
     "install:standalone": "node scripts/install-standalone.mjs",
-    "test": "node --check plugins/cloud-handoff/scripts/codex-handoff.mjs && node --check scripts/install-standalone.mjs && node --check scripts/validate.mjs && node scripts/validate.mjs && node scripts/smoke-test.mjs"
+    "test": "node --check plugins/claude-to-codex/scripts/claude-to-codex.mjs && node --check scripts/install-standalone.mjs && node --check scripts/validate.mjs && node scripts/validate.mjs && node scripts/smoke-test.mjs"
   },
   "keywords": [
     "claude-code",
@@ -18,6 +18,6 @@
     "plugin"
   ],
   "bin": {
-    "cloud-handoff": "./plugins/cloud-handoff/scripts/codex-handoff.mjs"
+    "claude-to-codex": "./plugins/claude-to-codex/scripts/claude-to-codex.mjs"
   }
 }

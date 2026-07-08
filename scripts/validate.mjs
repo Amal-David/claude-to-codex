@@ -8,12 +8,12 @@ const repoRoot = path.resolve(new URL("..", import.meta.url).pathname);
 
 const requiredFiles = [
   ".claude-plugin/marketplace.json",
-  "plugins/cloud-handoff/.claude-plugin/plugin.json",
-  "plugins/cloud-handoff/commands/handoff.md",
-  "plugins/cloud-handoff/skills/handoff/SKILL.md",
-  "plugins/cloud-handoff/scripts/codex-handoff.mjs",
+  "plugins/claude-to-codex/.claude-plugin/plugin.json",
+  "plugins/claude-to-codex/commands/handoff.md",
+  "plugins/claude-to-codex/skills/handoff/SKILL.md",
+  "plugins/claude-to-codex/scripts/claude-to-codex.mjs",
   "standalone/.claude/commands/handoff.md",
-  "standalone/.claude/skills/codex-handoff/SKILL.md",
+  "standalone/.claude/skills/claude-to-codex/SKILL.md",
   "scripts/install-standalone.mjs",
   "scripts/smoke-test.mjs",
   "README.md",
@@ -35,26 +35,28 @@ for (const file of requiredFiles) {
 }
 
 const marketplace = JSON.parse(read(".claude-plugin/marketplace.json"));
-const plugin = JSON.parse(read("plugins/cloud-handoff/.claude-plugin/plugin.json"));
+const plugin = JSON.parse(read("plugins/claude-to-codex/.claude-plugin/plugin.json"));
 const packageJson = JSON.parse(read("package.json"));
 
-assert(marketplace.name === "cloud-handoff", "Marketplace name must be cloud-handoff.");
+assert(marketplace.name === "claude-to-codex", "Marketplace name must be claude-to-codex.");
 assert(Array.isArray(marketplace.plugins), "Marketplace plugins must be an array.");
-assert(marketplace.plugins.some((entry) => entry.name === "cloud-handoff"), "Marketplace must list cloud-handoff plugin.");
-assert(plugin.name === "cloud-handoff", "Plugin name must be cloud-handoff.");
+assert(marketplace.plugins.some((entry) => entry.name === "claude-to-codex"), "Marketplace must list claude-to-codex plugin.");
+assert(plugin.name === "claude-to-codex", "Plugin name must be claude-to-codex.");
 assert(plugin.version, "Plugin version is required.");
-assert(packageJson.scripts?.handoff === "node plugins/cloud-handoff/scripts/codex-handoff.mjs", "Package must expose npm run handoff.");
+assert(packageJson.scripts?.handoff === "node plugins/claude-to-codex/scripts/claude-to-codex.mjs", "Package must expose npm run handoff.");
 
-const pluginCommand = read("plugins/cloud-handoff/commands/handoff.md");
+const pluginCommand = read("plugins/claude-to-codex/commands/handoff.md");
 const standaloneCommand = read("standalone/.claude/commands/handoff.md");
-const script = read("plugins/cloud-handoff/scripts/codex-handoff.mjs");
+const script = read("plugins/claude-to-codex/scripts/claude-to-codex.mjs");
 
 assert(pluginCommand.includes("disable-model-invocation: true"), "Plugin command must disable model invocation.");
-assert(pluginCommand.includes("${CLAUDE_PLUGIN_ROOT}/scripts/codex-handoff.mjs"), "Plugin command must use CLAUDE_PLUGIN_ROOT.");
+assert(pluginCommand.includes("${CLAUDE_PLUGIN_ROOT}/scripts/claude-to-codex.mjs"), "Plugin command must use CLAUDE_PLUGIN_ROOT.");
 assert(!pluginCommand.includes("$ARGUMENTS"), "Plugin command must not pass raw slash-command text to a shell.");
-assert(standaloneCommand.includes("$HOME/.claude/skills/codex-handoff/scripts/codex-handoff.mjs"), "Standalone command must use HOME install path.");
+assert(standaloneCommand.includes("$HOME/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs"), "Standalone command must use HOME install path.");
 assert(!standaloneCommand.includes("$ARGUMENTS"), "Standalone command must not pass raw slash-command text to a shell.");
 assert(script.includes("--codex-subagents"), "Launcher must support codex subagent budget.");
+assert(script.includes("# Claude to Codex"), "Launcher prompt must use the Claude to Codex title.");
+assert(!script.includes("Claude to Claude"), "Launcher prompt must not include a duplicated Claude to Codex title.");
 assert(script.includes("Do not expose secrets"), "Launcher prompt must include secret handling instruction.");
 assert(script.includes("<claude_transcript_digest>"), "Launcher prompt must wrap transcript-derived digest in a boundary.");
 assert(script.includes("not a new instruction source"), "Launcher prompt must mark digest content as untrusted context.");

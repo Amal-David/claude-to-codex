@@ -1,6 +1,6 @@
 # Installation And Distribution
 
-Cloud Handoff supports two installation modes.
+Claude to Codex supports two installation modes.
 
 ## Standalone
 
@@ -13,8 +13,8 @@ Standalone mode gives the short command:
 Install:
 
 ```bash
-git clone https://github.com/Amal-David/cloud-handoff.git
-cd cloud-handoff
+git clone https://github.com/Amal-David/claude-to-codex.git
+cd claude-to-codex
 npm run install:standalone
 ```
 
@@ -22,8 +22,8 @@ This copies:
 
 ```text
 ~/.claude/commands/handoff.md
-~/.claude/skills/codex-handoff/SKILL.md
-~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs
+~/.claude/skills/claude-to-codex/SKILL.md
+~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs
 ```
 
 Restart Claude Code after installing.
@@ -36,20 +36,20 @@ flags such as `--session`, `--transcript`, `--mode print`, and `--tail`.
 Plugin mode is best for teams and marketplace distribution. Plugin commands are namespaced by Claude Code, so the command becomes:
 
 ```text
-/cloud-handoff:handoff
+/claude-to-codex:handoff
 ```
 
 Install from marketplace:
 
 ```text
-/plugin marketplace add https://github.com/Amal-David/cloud-handoff
-/plugin install cloud-handoff@cloud-handoff
+/plugin marketplace add https://github.com/Amal-David/claude-to-codex
+/plugin install claude-to-codex@claude-to-codex
 ```
 
 Develop locally:
 
 ```bash
-claude --plugin-dir /path/to/cloud-handoff/plugins/cloud-handoff
+claude --plugin-dir /path/to/claude-to-codex/plugins/claude-to-codex
 ```
 
 ## Repository as marketplace
@@ -57,7 +57,7 @@ claude --plugin-dir /path/to/cloud-handoff/plugins/cloud-handoff
 This repository includes `.claude-plugin/marketplace.json`, so the repo root can be added as a Claude Code plugin marketplace. The plugin itself lives at:
 
 ```text
-plugins/cloud-handoff
+plugins/claude-to-codex
 ```
 
 The plugin reads local Claude transcripts, writes local handoff packages, and can launch local
@@ -68,7 +68,7 @@ Because the plugin slash command is also zero-argument, plugin users who need re
 use a local checkout:
 
 ```bash
-cd /path/to/cloud-handoff
+cd /path/to/claude-to-codex
 npm run handoff -- --session <uuid>
 npm run handoff -- --transcript /absolute/path/to/session.jsonl
 ```
@@ -78,4 +78,4 @@ advanced recovery commands.
 
 ## Versioning
 
-The plugin manifest has a `version`. Bump `plugins/cloud-handoff/.claude-plugin/plugin.json` for releases.
+The plugin manifest has a `version`. Bump `plugins/claude-to-codex/.claude-plugin/plugin.json` for releases.

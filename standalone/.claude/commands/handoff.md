@@ -5,4 +5,4 @@ disable-model-invocation: true
 allowed-tools: Bash(node:*)
 ---
 
-!`node "$HOME/.claude/skills/codex-handoff/scripts/codex-handoff.mjs"`
+!`node "$HOME/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs"`

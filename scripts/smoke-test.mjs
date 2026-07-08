@@ -7,9 +7,9 @@ import path from "node:path";
 import process from "node:process";
 
 const repoRoot = path.resolve(new URL("..", import.meta.url).pathname);
-const script = path.join(repoRoot, "plugins", "cloud-handoff", "scripts", "codex-handoff.mjs");
+const script = path.join(repoRoot, "plugins", "claude-to-codex", "scripts", "claude-to-codex.mjs");
 const fixture = path.join(repoRoot, "test", "fixtures", "sample-session.jsonl");
-const tmpRoot = path.join(os.tmpdir(), `cloud-handoff-smoke-${process.pid}`);
+const tmpRoot = path.join(os.tmpdir(), `claude-to-codex-smoke-${process.pid}`);
 
 fs.rmSync(tmpRoot, { recursive: true, force: true });
 fs.mkdirSync(tmpRoot, { recursive: true });
@@ -50,8 +50,11 @@ if (!match) {
 }
 const promptPath = match[1].trim();
 const prompt = fs.readFileSync(promptPath, "utf8");
-if (!prompt.includes("Claude to Codex Handoff")) {
+if (!prompt.includes("# Claude to Codex")) {
   throw new Error("Prompt does not include handoff title.");
+}
+if (prompt.includes("Claude to Claude")) {
+  throw new Error("Prompt includes duplicated Claude to Codex title.");
 }
 if (!prompt.includes("up to 2 Codex subagents")) {
   throw new Error("Prompt does not include subagent budget.");

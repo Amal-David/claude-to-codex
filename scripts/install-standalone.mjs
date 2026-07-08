@@ -15,19 +15,19 @@ function copyFile(src, dest) {
 
 function main() {
   const commandSrc = path.join(repoRoot, "standalone", ".claude", "commands", "handoff.md");
-  const skillSrc = path.join(repoRoot, "standalone", ".claude", "skills", "codex-handoff", "SKILL.md");
-  const scriptSrc = path.join(repoRoot, "plugins", "cloud-handoff", "scripts", "codex-handoff.mjs");
+  const skillSrc = path.join(repoRoot, "standalone", ".claude", "skills", "claude-to-codex", "SKILL.md");
+  const scriptSrc = path.join(repoRoot, "plugins", "claude-to-codex", "scripts", "claude-to-codex.mjs");
 
   const commandDest = path.join(homeClaude, "commands", "handoff.md");
-  const skillDest = path.join(homeClaude, "skills", "codex-handoff", "SKILL.md");
-  const scriptDest = path.join(homeClaude, "skills", "codex-handoff", "scripts", "codex-handoff.mjs");
+  const skillDest = path.join(homeClaude, "skills", "claude-to-codex", "SKILL.md");
+  const scriptDest = path.join(homeClaude, "skills", "claude-to-codex", "scripts", "claude-to-codex.mjs");
 
   copyFile(commandSrc, commandDest);
   copyFile(skillSrc, skillDest);
   copyFile(scriptSrc, scriptDest);
   fs.chmodSync(scriptDest, 0o755);
 
-  console.log("Installed Cloud Handoff standalone command.");
+  console.log("Installed Claude to Codex standalone command.");
   console.log(`- Command: ${commandDest}`);
   console.log(`- Skill: ${skillDest}`);
   console.log(`- Script: ${scriptDest}`);

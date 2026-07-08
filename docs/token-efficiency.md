@@ -1,6 +1,6 @@
 # Token Efficiency
 
-Cloud Handoff tries to save useful context without moving the entire Claude conversation into the Codex prompt.
+Claude to Codex tries to save useful context without moving the entire Claude conversation into the Codex prompt.
 
 ## Defaults
 
@@ -18,13 +18,13 @@ The most recent turns usually contain the current plan, blockers, and last verif
 Use a larger tail when the session has many short messages after the last meaningful plan:
 
 ```bash
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --tail 80
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --tail 80
 ```
 
 From a plugin or repo checkout:
 
 ```bash
-cd /path/to/cloud-handoff
+cd /path/to/claude-to-codex
 npm run handoff -- --tail 80
 ```
 
@@ -35,13 +35,13 @@ The hard range is 3 to 200 to prevent accidental giant prompts.
 Use print mode when you want the exact same shell after exiting Claude:
 
 ```bash
-node ~/.claude/skills/codex-handoff/scripts/codex-handoff.mjs --mode print
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --mode print
 ```
 
 From a plugin or repo checkout:
 
 ```bash
-cd /path/to/cloud-handoff
+cd /path/to/claude-to-codex
 npm run handoff -- --mode print
 ```
 

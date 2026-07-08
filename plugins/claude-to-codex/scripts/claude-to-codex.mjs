@@ -26,7 +26,7 @@ const SECRET_PATTERNS = [
 function usage() {
   return [
     "Slash command usage: /handoff",
-    "Advanced CLI usage: node codex-handoff.mjs [--mode auto|tmux|terminal|print] [--session <uuid>] [--transcript <path>] [--tail <n>] [--no-launch] [note]",
+    "Advanced CLI usage: node claude-to-codex.mjs [--mode auto|tmux|terminal|print] [--session <uuid>] [--transcript <path>] [--tail <n>] [--no-launch] [note]",
     "",
     "Creates ~/.claude/handoffs/<timestamp>-<session>/ and launches Codex when possible."
   ].join("\n");
@@ -351,7 +351,7 @@ function writeHandoffPackage({ cwd, transcript, sessionId, sessionSource, note, 
   fs.writeFileSync(digestPath, `${digest}\n`, "utf8");
 
   const prompt = [
-    "# Claude to Codex Handoff",
+    "# Claude to Codex",
     "",
     "You are Codex taking over an active Claude Code session because the user wants to continue in Codex.",
     "",
@@ -414,11 +414,11 @@ function launchTmux(runnerPath) {
     return { ok: false, reason: "tmux is not available." };
   }
   const command = `zsh ${shellQuote(runnerPath)}`;
-  const result = spawnSync("tmux", ["new-window", "-n", "codex-handoff", command], { encoding: "utf8" });
+  const result = spawnSync("tmux", ["new-window", "-n", "claude-to-codex", command], { encoding: "utf8" });
   if (result.status !== 0) {
     return { ok: false, reason: result.stderr.trim() || result.stdout.trim() || "tmux new-window failed." };
   }
-  return { ok: true, method: "tmux", detail: "Started Codex in a new tmux window named codex-handoff." };
+  return { ok: true, method: "tmux", detail: "Started Codex in a new tmux window named claude-to-codex." };
 }
 
 function launchTerminal(runnerPath) {

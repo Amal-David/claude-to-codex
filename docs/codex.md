@@ -1,6 +1,6 @@
 # Codex Notes
 
-Cloud Handoff starts Codex in interactive CLI mode with an initial prompt.
+Claude to Codex starts Codex in interactive CLI mode with an initial prompt.
 
 The generated runner looks like:
 
@@ -34,6 +34,6 @@ Claude transcript facts can be stale. The generated prompt explicitly tells Code
 
 ## Subagents
 
-Codex subagents are explicit. Cloud Handoff does not assume they should run. Use the direct Node CLI
+Codex subagents are explicit. Claude to Codex does not assume they should run. Use the direct Node CLI
 or `npm run handoff -- --codex-subagents <n>` from a repo checkout to give Codex a bounded budget
 and a user note describing why parallel work is useful.

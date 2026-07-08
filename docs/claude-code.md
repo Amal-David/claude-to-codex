@@ -1,6 +1,6 @@
 # Claude Code Notes
 
-Cloud Handoff relies on Claude Code extension points documented by Anthropic:
+Claude to Codex relies on Claude Code extension points documented by Anthropic:
 
 - Skills can be invoked with `/skill-name`.
 - Custom commands have been merged into skills; `.claude/commands/*.md` still works.
@@ -14,7 +14,7 @@ Standalone install writes:
 
 ```text
 ~/.claude/commands/handoff.md
-~/.claude/skills/codex-handoff/
+~/.claude/skills/claude-to-codex/
 ```
 
 This gives `/handoff`.
@@ -24,12 +24,12 @@ This gives `/handoff`.
 Plugin install uses:
 
 ```text
-plugins/cloud-handoff/commands/handoff.md
-plugins/cloud-handoff/skills/handoff/SKILL.md
-plugins/cloud-handoff/agents/*.md
+plugins/claude-to-codex/commands/handoff.md
+plugins/claude-to-codex/skills/handoff/SKILL.md
+plugins/claude-to-codex/agents/*.md
 ```
 
-This gives `/cloud-handoff:handoff`.
+This gives `/claude-to-codex:handoff`.
 
 ## Command execution
 

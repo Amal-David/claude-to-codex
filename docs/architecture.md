@@ -1,12 +1,12 @@
 # Architecture
 
-Cloud Handoff is a command-backed Claude Code skill.
+Claude to Codex is a command-backed Claude Code skill.
 
 ## Flow
 
 1. User runs `/handoff` in Claude Code.
 2. Claude Code expands the command without invoking the model.
-3. `codex-handoff.mjs` locates the current Claude JSONL transcript.
+3. `claude-to-codex.mjs` locates the current Claude JSONL transcript.
 4. The script writes a handoff directory under `~/.claude/handoffs`.
 5. The script builds `codex-prompt.md` with:
    - workspace path
@@ -24,7 +24,7 @@ Pasting a full Claude transcript into Codex repeats the context pressure problem
 
 ## Why not in-place terminal replacement
 
-Claude owns the active terminal while its TUI is running. Replacing that same TTY with Codex from inside a slash command is brittle. Cloud Handoff prefers:
+Claude owns the active terminal while its TUI is running. Replacing that same TTY with Codex from inside a slash command is brittle. Claude to Codex prefers:
 
 - tmux window, when running inside tmux
 - new macOS Terminal window, when available

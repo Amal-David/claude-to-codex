@@ -8,17 +8,17 @@ description: Hand off a live Claude Code conversation to Codex by packaging the 
 Prefer the command form for deterministic execution:
 
 ```text
-/cloud-handoff:handoff
+/claude-to-codex:handoff
 ```
 
-The command runs `scripts/codex-handoff.mjs`, which writes a handoff package under `~/.claude/handoffs` and launches Codex when possible.
+The command runs `scripts/claude-to-codex.mjs`, which writes a handoff package under `~/.claude/handoffs` and launches Codex when possible.
 
 The slash command is zero-argument for shell safety. Use the direct Node CLI when maintaining the
 plugin and you need options such as `--mode print`, `--session`, `--transcript`, `--tail`, or
 `--codex-subagents`:
 
 ```bash
-node plugins/cloud-handoff/scripts/codex-handoff.mjs --mode print
+node plugins/claude-to-codex/scripts/claude-to-codex.mjs --mode print
 ```
 
 Token rule: pass Codex the digest and transcript path, not a full pasted transcript. Let Codex read only the transcript slices it needs.
