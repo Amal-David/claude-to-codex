@@ -6,7 +6,7 @@
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-skill%20%2B%20plugin-6b7280.svg)
 ![Codex CLI](https://img.shields.io/badge/Codex-CLI%20handoff-0ea5e9.svg)
 
-**Claude to Codex** is the open-source Cloud Handoff tool for resuming an active, context-heavy
+**Claude to Codex** is an open-source tool for resuming an active, context-heavy
 Claude Code session in an interactive Codex terminal session. Fable is treated as a Claude model,
 not as a separate agent.
 
