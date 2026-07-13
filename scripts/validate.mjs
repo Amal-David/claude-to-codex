@@ -13,7 +13,7 @@ const requiredFiles = [
   "plugins/claude-to-codex/.claude-plugin/plugin.json",
   "plugins/claude-to-codex/commands/handoff.md",
   "plugins/claude-to-codex/skills/handoff/SKILL.md",
-  "plugins/claude-to-codex/scripts/claude-to-codex.mjs",
+  "plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs",
   "standalone/.claude/commands/handoff.md",
   "standalone/.claude/skills/claude-to-codex/SKILL.md",
   "assets/screenshots/handoff-help.png",
@@ -52,18 +52,31 @@ assert(plugin.name === "claude-to-codex", "Plugin name must be claude-to-codex."
 assert(plugin.version, "Plugin version is required.");
 assert(plugin.version === packageJson.version, "Plugin version must match package.json version.");
 assert(packageJson.private === true, "Package must remain GitHub-only to avoid npm registry name collision.");
-assert(packageJson.scripts?.handoff === "node plugins/claude-to-codex/scripts/claude-to-codex.mjs", "Package must expose npm run handoff.");
+assert(
+  packageJson.scripts?.handoff === "node plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs",
+  "Package must expose npm run handoff from the self-contained skill."
+);
 
 const pluginCommand = read("plugins/claude-to-codex/commands/handoff.md");
+const pluginSkill = read("plugins/claude-to-codex/skills/handoff/SKILL.md");
 const standaloneCommand = read("standalone/.claude/commands/handoff.md");
-const script = read("plugins/claude-to-codex/scripts/claude-to-codex.mjs");
+const script = read("plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs");
 const releaseWorkflow = read(".github/workflows/release.yml");
 const releasesDoc = read("docs/releases.md");
+const readme = read("README.md");
 
 assert(pluginCommand.includes("disable-model-invocation: true"), "Plugin command must disable model invocation.");
-assert(pluginCommand.includes("${CLAUDE_PLUGIN_ROOT}/scripts/claude-to-codex.mjs"), "Plugin command must use CLAUDE_PLUGIN_ROOT.");
+assert(
+  pluginCommand.includes("${CLAUDE_PLUGIN_ROOT}/skills/handoff/scripts/claude-to-codex.mjs"),
+  "Plugin command must launch the self-contained skill script through CLAUDE_PLUGIN_ROOT."
+);
 assert(pluginCommand.includes(' --session "${CLAUDE_SESSION_ID}"'), "Plugin command must pass the exact Claude session identity.");
 assert(!pluginCommand.includes("$ARGUMENTS"), "Plugin command must not pass raw slash-command text to a shell.");
+assert(
+  pluginSkill.includes("<skill-directory>/scripts/claude-to-codex.mjs"),
+  "Skill must launch its bundled script after a Skills CLI installation."
+);
+assert(pluginSkill.includes("CLAUDE_SESSION_ID"), "Skill must require the exact active Claude session identity.");
 assert(standaloneCommand.includes("$HOME/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs"), "Standalone command must use HOME install path.");
 assert(standaloneCommand.includes(' --session "${CLAUDE_SESSION_ID}"'), "Standalone command must pass the exact Claude session identity.");
 assert(!standaloneCommand.includes("$ARGUMENTS"), "Standalone command must not pass raw slash-command text to a shell.");
@@ -88,6 +101,15 @@ assert(script.includes("packageDirectoryMode: \"0700\""), "Manifest must documen
 assert(script.includes("CODEX_ARG_PROMPT_BYTE_LIMIT"), "Launcher must bound process-argument prompt size.");
 assert(script.includes("collectGitSnapshot"), "Launcher must capture repository or workspace git state.");
 assert(script.includes("sourcePolicyClaims"), "Launcher must track excluded source-model policy verdicts without transferring their text.");
+assert(
+  packageJson.bin?.["claude-to-codex"] === "./plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs",
+  "Package bin must use the self-contained skill launcher."
+);
+assert(readme.includes("https://skills.sh/b/amal-david/claude-to-codex"), "README must include the Skills.sh badge.");
+assert(
+  readme.includes("npx skills add Amal-David/claude-to-codex --global --agent claude-code --skill handoff --yes"),
+  "README must document a deterministic Claude Code Skills CLI install."
+);
 assert(releaseWorkflow.includes("gh release create"), "Release workflow must create a GitHub release.");
 assert(releaseWorkflow.includes("npm test"), "Release workflow must run tests before packing.");
 assert(releaseWorkflow.includes("Verify release tag"), "Release workflow must guard tag/package version mismatch.");

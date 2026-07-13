@@ -68,7 +68,15 @@ function installFiles(operations) {
 function main() {
   const commandSrc = path.join(repoRoot, "standalone", ".claude", "commands", "handoff.md");
   const skillSrc = path.join(repoRoot, "standalone", ".claude", "skills", "claude-to-codex", "SKILL.md");
-  const scriptSrc = path.join(repoRoot, "plugins", "claude-to-codex", "scripts", "claude-to-codex.mjs");
+  const scriptSrc = path.join(
+    repoRoot,
+    "plugins",
+    "claude-to-codex",
+    "skills",
+    "handoff",
+    "scripts",
+    "claude-to-codex.mjs"
+  );
 
   const commandDest = path.join(homeClaude, "commands", "handoff.md");
   const skillDest = path.join(homeClaude, "skills", "claude-to-codex", "SKILL.md");

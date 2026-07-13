@@ -7,7 +7,7 @@
     {
       "name": "claude-to-codex",
       "source": "./plugins/claude-to-codex",
-      "description": "Hand off an active Claude Code session to Codex without carrying source-model policy verdicts forward."
+      "description": "Switch from Claude Code to Codex without losing context with one /handoff command."
     }
   ]
 }

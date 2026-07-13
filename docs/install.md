@@ -1,6 +1,24 @@
 # Installation And Distribution
 
-Claude to Codex supports two installation modes.
+Claude to Codex supports three installation modes.
+
+## Skills.sh
+
+Install the self-contained skill from the public Skills.sh directory:
+
+```bash
+npx skills add Amal-David/claude-to-codex --global --agent claude-code --skill handoff --yes
+```
+
+This installs `SKILL.md` and its bundled launcher together under:
+
+```text
+~/.claude/skills/handoff
+```
+
+Restart Claude Code, then run `/handoff`. The skill requires the active `CLAUDE_SESSION_ID` and
+does not silently select the newest transcript. Its public directory page is
+[skills.sh/amal-david/claude-to-codex](https://skills.sh/amal-david/claude-to-codex).
 
 ## Standalone
 

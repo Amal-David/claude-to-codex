@@ -17,9 +17,9 @@
     "node": ">=22"
   },
   "scripts": {
-    "handoff": "node plugins/claude-to-codex/scripts/claude-to-codex.mjs",
+    "handoff": "node plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs",
     "install:standalone": "node scripts/install-standalone.mjs",
-    "test": "node --check plugins/claude-to-codex/scripts/claude-to-codex.mjs && node --check scripts/install-standalone.mjs && node --check scripts/validate.mjs && node scripts/validate.mjs && node scripts/smoke-test.mjs"
+    "test": "node --check plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs && node --check scripts/install-standalone.mjs && node --check scripts/validate.mjs && node scripts/validate.mjs && node scripts/smoke-test.mjs"
   },
   "keywords": [
     "claude-to-codex",
@@ -44,6 +44,6 @@
     "plugin"
   ],
   "bin": {
-    "claude-to-codex": "./plugins/claude-to-codex/scripts/claude-to-codex.mjs"
+    "claude-to-codex": "./plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "claude-to-codex",
-  "description": "Policy-neutral Claude Code handoff to Codex with Fable-to-Opus model lineage.",
+  "description": "Switch from Claude Code to Codex without losing context with one /handoff command.",
   "version": "0.2.0",
   "author": {
     "name": "Amal David"

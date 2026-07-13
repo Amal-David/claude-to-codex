@@ -5,4 +5,4 @@ disable-model-invocation: true
 allowed-tools: Bash(node:*)
 ---
 
-!`node "${CLAUDE_PLUGIN_ROOT}/scripts/claude-to-codex.mjs" --session "${CLAUDE_SESSION_ID}"`
+!`node "${CLAUDE_PLUGIN_ROOT}/skills/handoff/scripts/claude-to-codex.mjs" --session "${CLAUDE_SESSION_ID}"`

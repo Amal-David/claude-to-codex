@@ -2,18 +2,18 @@
 
 [![CI](https://github.com/Amal-David/claude-to-codex/actions/workflows/test.yml/badge.svg)](https://github.com/Amal-David/claude-to-codex/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-111827.svg)](LICENSE)
+[![skills.sh](https://skills.sh/b/amal-david/claude-to-codex)](https://skills.sh/amal-david/claude-to-codex)
 ![Node 22+](https://img.shields.io/badge/node-22%2B-339933.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-skill%20%2B%20plugin-6b7280.svg)
 ![Codex CLI](https://img.shields.io/badge/Codex-CLI%20handoff-0ea5e9.svg)
 
-**Claude to Codex** is an open-source tool for resuming an active, context-heavy
-Claude Code session in an interactive Codex terminal session. Fable is treated as a Claude model,
-not as a separate agent.
+**Switch from Claude Code to Codex without losing context.** Claude to Codex adds one `/handoff`
+command that carries the active session into an interactive Codex terminal.
 
-Claude to Codex gives Claude Code a `/handoff` command. It selects the exact active session, follows
-the active conversation branch, detects model changes such as Fable 5 falling back to Opus 4.8,
-writes private hot context, captures one repository or a multi-repository workspace, resolves the
-configured Codex model, and dispatches Codex with a bounded pointer prompt.
+It selects the exact active conversation branch, detects model changes such as Fable 5 falling back
+to Opus 4.8, writes private hot context, captures one repository or a multi-repository workspace,
+resolves the configured Codex model, and dispatches Codex with a bounded pointer prompt. Fable is
+treated as a Claude model, not as a separate agent.
 
 ## Why
 
@@ -54,7 +54,23 @@ Prerequisites:
 - Node.js 22 or newer.
 - Optional: tmux for same-terminal-pane workflows, or macOS Terminal for new-window launch fallback.
 
-### Option A: standalone `/handoff`
+### Option A: Skills.sh
+
+Install the self-contained skill globally for Claude Code:
+
+```bash
+npx skills add Amal-David/claude-to-codex --global --agent claude-code --skill handoff --yes
+```
+
+Then restart Claude Code and run:
+
+```text
+/handoff
+```
+
+See the public listing at [skills.sh/amal-david/claude-to-codex](https://skills.sh/amal-david/claude-to-codex).
+
+### Option B: standalone `/handoff`
 
 This gives the shortest command name.
 
@@ -70,7 +86,7 @@ Then restart Claude Code and run:
 /handoff
 ```
 
-### Option B: Claude Code plugin
+### Option C: Claude Code plugin
 
 Use this when sharing with a team or installing from a marketplace.
 

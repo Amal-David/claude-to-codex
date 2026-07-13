@@ -36,6 +36,19 @@ Key design points:
 - Subagents are explicit and can consume extra tokens, so Claude to Codex never spawns them by default.
 - Codex should verify live repo and PR state because Claude transcript facts can be stale.
 
+## Skills.sh
+
+- Skills directory: https://skills.sh
+- Skills CLI documentation: https://skills.sh/docs/cli
+- Skills CLI source: https://github.com/vercel-labs/skills
+- Claude to Codex listing: https://skills.sh/amal-david/claude-to-codex
+
+Key design points:
+
+- Public repositories become discoverable through successful `npx skills add` installations; there is no separate submission form.
+- The CLI installs the discovered skill directory, so every runtime dependency must live beside `SKILL.md`.
+- Install telemetry powers the public listing and rankings.
+
 ## Community handoff feedback
 
 - Reddit thread: https://www.reddit.com/r/claudeskills/comments/1uj04xx/what_should_a_claude_handoff_skill_preserve_when/

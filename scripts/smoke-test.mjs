@@ -8,7 +8,8 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const script = path.join(repoRoot, "plugins", "claude-to-codex", "scripts", "claude-to-codex.mjs");
+const skillDirectory = path.join(repoRoot, "plugins", "claude-to-codex", "skills", "handoff");
+const script = path.join(skillDirectory, "scripts", "claude-to-codex.mjs");
 const installer = path.join(repoRoot, "scripts", "install-standalone.mjs");
 const fixture = path.join(repoRoot, "test", "fixtures", "sample-session.jsonl");
 const tmpRoot = path.join(os.tmpdir(), `claude-to-codex-smoke-${process.pid}`);
@@ -235,6 +236,22 @@ if (shellCheck.status !== 0) {
   process.stderr.write(`${processOutput(shellCheck)}\n`);
   process.exit(shellCheck.status ?? 1);
 }
+
+const skillsCliInstall = path.join(tmpRoot, "skills-cli-install", "handoff");
+fs.cpSync(skillDirectory, skillsCliInstall, { recursive: true });
+const skillsCliScript = path.join(skillsCliInstall, "scripts", "claude-to-codex.mjs");
+const skillsCliResult = spawnSync(process.execPath, [skillsCliScript, "--help"], {
+  cwd: repoRoot,
+  encoding: "utf8"
+});
+if (skillsCliResult.status !== 0) {
+  throw new Error(`Self-contained skill launcher failed: ${processOutput(skillsCliResult)}`);
+}
+assertIncludes(
+  skillsCliResult.stdout,
+  "Slash command usage: /handoff",
+  "A copied Skills CLI installation did not include a runnable launcher."
+);
 
 const installHome = path.join(tmpRoot, "install-home");
 const existingCommand = path.join(installHome, ".claude", "commands", "handoff.md");
