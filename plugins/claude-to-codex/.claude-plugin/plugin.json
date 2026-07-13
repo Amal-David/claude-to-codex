@@ -1,7 +1,7 @@
 {
   "name": "claude-to-codex",
-  "description": "Claude to Codex handoff command for Claude Code.",
-  "version": "0.1.0",
+  "description": "Policy-neutral Claude Code handoff to Codex with Fable-to-Opus model lineage.",
+  "version": "0.2.0",
   "author": {
     "name": "Amal David"
   }

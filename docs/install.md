@@ -26,10 +26,12 @@ This copies:
 ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs
 ```
 
-Restart Claude Code after installing.
+Existing destination files are retained beside the new files as timestamped `.backup-*` copies.
+Installation stages every file before replacing any destination and rolls back on failure. Restart
+Claude Code after installing.
 
 The standalone slash command is zero-argument for shell safety. Use the direct Node CLI for recovery
-flags such as `--session`, `--transcript`, `--mode print`, and `--tail`.
+flags such as `--session`, `--transcript`, `--latest`, `--mode print`, and `--tail`.
 
 Run a local diagnostic after installing:
 
@@ -77,6 +79,7 @@ use a local checkout:
 cd /path/to/claude-to-codex
 npm run handoff -- --session <uuid>
 npm run handoff -- --transcript /absolute/path/to/session.jsonl
+npm run handoff -- --latest --mode print
 npm run handoff -- --check
 ```
 
@@ -85,5 +88,6 @@ advanced recovery commands.
 
 ## Versioning
 
-The plugin manifest has a `version`. Bump `plugins/claude-to-codex/.claude-plugin/plugin.json` for releases.
+The plugin manifest and `package.json` have a `version` and must match. The npm package is private;
+the tarball is a GitHub release artifact, not a public npm publication.
 See [Releases](releases.md) for the tag-triggered GitHub release workflow.

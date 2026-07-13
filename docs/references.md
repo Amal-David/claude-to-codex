@@ -16,6 +16,8 @@ Key design points:
 - Plugins are better than standalone config for shared, versioned, reusable extensions.
 - Plugin commands and skills are namespaced by plugin name.
 - Plugins can ship agents for specialized review.
+- `${CLAUDE_SESSION_ID}` is the documented exact current-session substitution for skills.
+- Claude transcripts live under `~/.claude/projects/<project>/<session-id>.jsonl`.
 
 ## Codex
 
@@ -29,6 +31,8 @@ Key design points:
 
 - Codex can start interactively with an initial prompt.
 - `-C` sets the working directory.
+- `-m` overrides the configured model for one invocation.
+- `codex login status` exits successfully when credentials are present.
 - Subagents are explicit and can consume extra tokens, so Claude to Codex never spawns them by default.
 - Codex should verify live repo and PR state because Claude transcript facts can be stale.
 
@@ -43,3 +47,11 @@ Design points incorporated:
 - Use git as cheap project truth for touched files and diffs.
 - Preserve constraints, dead ends, verification status, and the next smallest action.
 - Drop abandoned branches and superseded debugging paths unless they explain a still-relevant decision.
+- Keep source-agent interpretation separate from factual state so the receiving model can assess the user's request independently.
+
+## Model Transition Note
+
+Fable is a Claude model alias. Claude Code transcripts can include a structured fallback from
+`claude-fable-5` to `claude-opus-4-8`, including refusal metadata. Claude to Codex preserves the
+neutral model transition but deliberately excludes the refusal category and explanation from the
+receiving prompt.

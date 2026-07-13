@@ -1,49 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
-  <title id="title">Claude to Codex handoff package output</title>
-  <desc id="desc">A terminal screenshot showing Claude to Codex creating a handoff package with hot context, git snapshot, digest, manifest, prompt, runner, and manual run command.</desc>
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#172033"/>
-      <stop offset="1" stop-color="#0b1120"/>
-    </linearGradient>
-    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#243247"/>
-      <stop offset="1" stop-color="#111827"/>
-    </linearGradient>
-    <filter id="shadow" x="-10%" y="-20%" width="120%" height="140%">
-      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#020617" flood-opacity="0.42"/>
-    </filter>
-  </defs>
-  <rect width="1280" height="720" fill="#e5e7eb"/>
-  <rect x="92" y="70" width="1096" height="620" rx="16" fill="url(#bg)" filter="url(#shadow)"/>
-  <rect x="92" y="70" width="1096" height="54" rx="16" fill="url(#bar)"/>
-  <rect x="92" y="108" width="1096" height="16" fill="#111827"/>
-  <circle cx="125" cy="97" r="7" fill="#ef4444"/>
-  <circle cx="151" cy="97" r="7" fill="#f59e0b"/>
-  <circle cx="177" cy="97" r="7" fill="#22c55e"/>
-  <text x="640" y="102" fill="#cbd5e1" font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="15" text-anchor="middle">handoff package</text>
-  <g font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="21">
-    <text x="132" y="168" fill="#94a3b8">$</text>
-    <text x="165" y="168" fill="#e5e7eb">npm run handoff -- --mode print --tail 80</text>
-    <text x="132" y="234" fill="#f8fafc">Codex handoff package created.</text>
-    <text x="132" y="278" fill="#38bdf8">- Transcript:</text>
-    <text x="360" y="278" fill="#cbd5e1">~/.claude/projects/-Users-amal-app/session.jsonl</text>
-    <text x="132" y="316" fill="#38bdf8">- Hot context:</text>
-    <text x="360" y="316" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/hot-context.md</text>
-    <text x="132" y="354" fill="#38bdf8">- Git snapshot:</text>
-    <text x="360" y="354" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/git-snapshot.md</text>
-    <text x="132" y="392" fill="#38bdf8">- Digest:</text>
-    <text x="360" y="392" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/digest.md</text>
-    <text x="132" y="430" fill="#38bdf8">- Manifest:</text>
-    <text x="360" y="430" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/handoff.json</text>
-    <text x="132" y="468" fill="#38bdf8">- Prompt:</text>
-    <text x="360" y="468" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/codex-prompt.md</text>
-    <text x="132" y="506" fill="#38bdf8">- Runner:</text>
-    <text x="360" y="506" fill="#cbd5e1">~/.claude/handoffs/2026-07-08T04-50-latest/run-codex.sh</text>
-    <text x="132" y="544" fill="#38bdf8">- Launch:</text>
-    <text x="360" y="544" fill="#cbd5e1">not started (Launch disabled by mode.)</text>
-    <text x="132" y="590" fill="#f8fafc">Run manually:</text>
-    <text x="132" y="628" fill="#a7f3d0">zsh ~/.claude/handoffs/2026-07-08T04-50-latest/run-codex.sh</text>
-    <text x="132" y="660" fill="#94a3b8">Hot state stays compact; full transcript remains available by file path.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Claude Fable to Codex GPT-5.6 handoff</title>
+  <desc id="desc">Terminal output showing an exact Claude session handed from Fable through Opus to Codex GPT-5.6 with policy-neutral context and repository state.</desc>
+  <rect width="1440" height="900" fill="#f3f4f6"/>
+  <rect x="72" y="48" width="1296" height="804" rx="10" fill="#111318"/>
+  <rect x="72" y="48" width="1296" height="52" rx="10" fill="#20242b"/>
+  <rect x="72" y="90" width="1296" height="10" fill="#20242b"/>
+  <circle cx="104" cy="74" r="7" fill="#ff5f57"/>
+  <circle cx="128" cy="74" r="7" fill="#febc2e"/>
+  <circle cx="152" cy="74" r="7" fill="#28c840"/>
+  <text x="720" y="80" fill="#b6beca" font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="15" text-anchor="middle">Claude Code - /handoff</text>
+  <g font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="18">
+    <text x="112" y="140" fill="#7dd3fc">&gt;</text>
+    <text x="144" y="140" fill="#f8fafc">/handoff</text>
+    <text x="112" y="194" fill="#f8fafc">Codex handoff package created.</text>
+    <text x="112" y="238" fill="#5eead4">Session</text>
+    <text x="335" y="238" fill="#cbd5e1">0afecd2f-c98d-4cf9-8a83-2c4165a3e680 (exact)</text>
+    <text x="112" y="274" fill="#5eead4">Workspace</text>
+    <text x="335" y="274" fill="#cbd5e1">/Users/amal/listenowl/lissin</text>
+    <text x="112" y="310" fill="#5eead4">Source models</text>
+    <text x="335" y="310" fill="#f8fafc">Claude Fable 5</text>
+    <text x="518" y="310" fill="#64748b">-&gt;</text>
+    <text x="558" y="310" fill="#f8fafc">Claude Opus 4.8</text>
+    <text x="112" y="346" fill="#5eead4">Reason</text>
+    <text x="335" y="346" fill="#cbd5e1">usage limit + structured model fallback</text>
+    <text x="112" y="382" fill="#5eead4">Target</text>
+    <text x="335" y="382" fill="#a7f3d0">Codex GPT-5.6 sol</text>
+    <text x="112" y="418" fill="#5eead4">Git</text>
+    <text x="335" y="418" fill="#cbd5e1">6 repositories captured, 2 dirty</text>
+    <text x="112" y="454" fill="#5eead4">Branch</text>
+    <text x="335" y="454" fill="#cbd5e1">active leaf selected; 480 abandoned messages ignored</text>
+    <text x="112" y="502" fill="#f8fafc">Policy boundary</text>
+    <text x="335" y="502" fill="#fbbf24">Claude refusal labels excluded.</text>
+    <text x="335" y="536" fill="#cbd5e1">Codex assesses the original request independently.</text>
+    <text x="112" y="584" fill="#f8fafc">Private package</text>
+    <text x="335" y="584" fill="#cbd5e1">~/.claude/handoffs/2026-07-13T19-07-39-0afecd2f/</text>
+    <text x="335" y="620" fill="#94a3b8">hot-context.md   handoff.json   git-snapshot.md</text>
+    <text x="335" y="656" fill="#94a3b8">digest.md        codex-prompt.md run-codex.sh</text>
+    <text x="112" y="710" fill="#5eead4">Launch</text>
+    <text x="335" y="710" fill="#a7f3d0">Codex command dispatched to a new Terminal window.</text>
+    <text x="335" y="746" fill="#64748b">Confirm the interactive session is ready there.</text>
+    <rect x="112" y="780" width="1216" height="1" fill="#334155"/>
+    <text x="112" y="816" fill="#94a3b8">Hot state first. Full transcript stays on disk. No source-policy priming.</text>
   </g>
 </svg>

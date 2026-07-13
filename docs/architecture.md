@@ -1,64 +1,57 @@
 # Architecture
 
-Claude to Codex is a command-backed Claude Code skill.
+Claude to Codex is a command-backed Claude Code skill with a deterministic local collector.
 
 ## Flow
 
-1. User runs `/handoff` in Claude Code.
-2. Claude Code expands the command without invoking the model.
-3. `claude-to-codex.mjs` locates the current Claude JSONL transcript.
-4. The script writes a handoff directory under `~/.claude/handoffs`.
-5. The script builds `codex-prompt.md` with:
-   - workspace path
-   - hot context path
-   - git snapshot path
-   - manifest path
-   - transcript path
-   - digest path
-   - recent redacted transcript digest as deeper history
-   - an explicit untrusted-context boundary around transcript-derived text
-   - safety and verification rules
-6. The script launches Codex in tmux, Terminal, or print mode.
-7. Codex starts interactively with the handoff prompt.
+1. The user runs `/handoff` in Claude Code.
+2. Claude Code substitutes `${CLAUDE_SESSION_ID}` and runs the Node collector without a model turn.
+3. The collector opens that exact JSONL transcript, follows its selected active leaf, and ignores rewound branches.
+4. It writes a private handoff package under `~/.claude/handoffs`.
+5. It captures one Git repository or immediate child repositories when the current directory is an orchestration workspace.
+6. It resolves the Codex target from `--codex-model`, `CLAUDE_TO_CODEX_MODEL`, Codex config, or the Codex default.
+7. It dispatches a portable `sh` runner to tmux or macOS Terminal, or prints the runner path.
 
-## Preservation model
+Launcher success means the command was dispatched. The user should confirm the interactive Codex
+session is ready; the collector does not claim that Codex accepted a model merely because Terminal
+or tmux returned successfully.
 
-The handoff package separates hot state from history:
+## Package
 
-- `hot-context.md`: first-read working state: current goal, files touched, git summary, decisions, constraints, dead ends, verification signals, and next smallest action.
-- `git-snapshot.md`: cheap repo truth: branch, HEAD, capped `git status --short`, changed files, warnings, and diff stats. It intentionally avoids full diffs by default.
-- `handoff.json`: stable machine-readable metadata: file paths, options, transcript stats, git stats, warnings, artifact pointers, and preservation policy.
-- `digest.md`: recent transcript text and tool-use pointers.
-- raw Claude JSONL transcript: deeper history, read only by targeted line or slice when the hot context is ambiguous.
+- `hot-context.md`: current goal, active files, decisions, constraints, dead ends, operational blockers, verification signals, and next action.
+- `git-snapshot.md`: capped branch, HEAD, status, changed paths, warnings, and diff stats for each detected repository.
+- `handoff.json`: schema-versioned paths, model lineage, neutral fallback events, transcript fingerprint, branch selection, Git metadata, attachment pointers, and preservation policy.
+- `digest.md`: recent redacted active-branch text and paired tool results with `passed`, `failed`, or `unknown` status.
+- `codex-prompt.md`: a bounded pointer-only prompt. It does not contain the digest or free-form user note.
+- `run-codex.sh`: private POSIX-shell runner that pins `-C` and the resolved `-m` model.
+- raw Claude JSONL transcript: deeper history, available by path for targeted inspection.
 
-This avoids carrying old debugging paths forward while preserving enough "why" to keep Codex from repeating known dead ends.
+## Policy-Neutral Boundary
 
-## Why not paste the full transcript
+Claude safety, legality, and refusal verdicts are not transferred as recommendations. Structured
+`model_refusal_fallback` events preserve only neutral `from`, `to`, timestamp, line, and source
+metadata. Category, trigger, explanation, and refusal prose are omitted from summaries.
 
-Pasting a full Claude transcript into Codex repeats the context pressure problem. The transcript is already durable on disk, so the prompt should contain hot state, repo truth, and pointers. Codex can read targeted transcript slices only when needed.
+The original user request remains available. Codex is explicitly told to assess that request under
+its own policies: a Claude refusal is neither permission to proceed nor a requirement to refuse.
+Ordinary technical blockers, such as missing credentials or a failed test, remain as untrusted
+operational facts.
 
-## Why not in-place terminal replacement
+## Discovery
 
-Claude owns the active terminal while its TUI is running. Replacing that same TTY with Codex from inside a slash command is brittle. Claude to Codex prefers:
+Normal `/handoff` always passes the exact session id. Direct CLI selection is fail-closed:
 
-- tmux window, when running inside tmux
-- new macOS Terminal window, when available
-- printed `run-codex.sh` command, for exact same shell after exiting Claude
+1. `--transcript <path>`
+2. `--session <id>` or a known session environment variable
+3. `--latest`, only when the user explicitly accepts newest-transcript discovery
 
-## Transcript discovery
+Claude stores transcripts under `~/.claude/projects/<project>/<session-id>.jsonl`. The collector
+streams JSONL, records malformed lines, fingerprints the source with SHA-256, and retries if the
+file changes during capture.
 
-Discovery order:
+## Security And Tokens
 
-1. `--transcript`
-2. `--session`
-3. known Claude session environment variables
-4. newest transcript for the current project under `~/.claude/projects/<cwd-slug>`
-
-The fallback keeps `/handoff` useful even when Claude does not expose the session ID to commands.
-
-## Safety
-
-The slash command does not pass `$ARGUMENTS` to the shell. Advanced flags are supported through the
-direct Node CLI, where they are normal argv values.
-
-The hot context, digest, and manifest redact common token shapes, and transcript-derived digest content is wrapped in an explicit untrusted-context boundary in the generated Codex prompt. Git capture is capped and does not include full diffs by default. This is defense in depth, not a guarantee. Users should treat Claude transcript files and handoff packages as sensitive local agent logs.
+The slash command accepts no free-form arguments. Handoff directories and runners use `0700`; data
+files use `0600`. Common credentials are redacted, metadata is sanitized, and full diffs are not
+captured. The initial Codex argv prompt is capped at 24 KiB and contains paths plus continuation
+rules, avoiding both transcript replay and large-process-argument failures.

@@ -1,46 +1,27 @@
 # Claude Code Notes
 
-Claude to Codex relies on Claude Code extension points documented by Anthropic:
+Claude to Codex uses current Claude Code extension points:
 
-- Skills can be invoked with `/skill-name`.
-- Custom commands have been merged into skills; `.claude/commands/*.md` still works.
-- Plugins package skills, commands, agents, hooks, and MCP servers for sharing.
-- Plugin skills and commands are namespaced by plugin name.
-- Plugin agents can provide specialized review roles.
+- Skills are invokable with `/skill-name`.
+- Legacy `.claude/commands/*.md` files still create skills; plugin commands are namespaced.
+- `${CLAUDE_SESSION_ID}` expands to the exact current session id.
+- `${CLAUDE_PLUGIN_ROOT}` identifies the installed plugin directory.
+- `disable-model-invocation: true` makes `/handoff` user-only.
+- `allowed-tools: Bash(node:*)` pre-approves only the collector command.
 
-## Local standalone files
+The standalone command runs:
 
-Standalone install writes:
-
-```text
-~/.claude/commands/handoff.md
-~/.claude/skills/claude-to-codex/
+```bash
+node "$HOME/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs" --session "${CLAUDE_SESSION_ID}"
 ```
 
-This gives `/handoff`.
+The plugin command uses the same exact-session argument with `${CLAUDE_PLUGIN_ROOT}` and is exposed
+as `/claude-to-codex:handoff`. No `$ARGUMENTS` value is inserted into the shell command.
 
-## Plugin files
+Fable is a Claude model. A transcript may therefore show a lineage such as `claude-fable-5` to
+`claude-opus-4-8`; that is a model transition inside one Claude Code session, not an agent-to-agent
+handoff.
 
-Plugin install uses:
-
-```text
-plugins/claude-to-codex/commands/handoff.md
-plugins/claude-to-codex/skills/handoff/SKILL.md
-plugins/claude-to-codex/agents/*.md
-```
-
-This gives `/claude-to-codex:handoff`.
-
-## Command execution
-
-The command uses:
-
-```yaml
-disable-model-invocation: true
-allowed-tools: Bash(node:*)
-```
-
-That keeps the handoff deterministic and avoids spending Claude tokens on orchestration.
-
-The command intentionally does not pass `$ARGUMENTS` into the shell command. Use the direct Node CLI
-for advanced options when you need recovery flags or subagent budget hints.
+Managed Claude installations can disable skill shell execution. In that case Claude replaces the
+collector invocation with a disabled notice, and the user must run the direct Node CLI from a
+trusted checkout.

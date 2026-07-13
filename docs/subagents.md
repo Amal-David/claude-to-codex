@@ -24,14 +24,14 @@ Codex only spawns subagents when explicitly asked. The slash command does not ac
 For advanced handoffs, run the direct Node CLI with a bounded subagent budget:
 
 ```bash
-node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --codex-subagents 3 "review this implementation before continuing"
+node ~/.claude/skills/claude-to-codex/scripts/claude-to-codex.mjs --latest --codex-subagents 3 "review this implementation before continuing"
 ```
 
 Plugin or repo-checkout users can run the same option through the repo script:
 
 ```bash
 cd /path/to/claude-to-codex
-npm run handoff -- --codex-subagents 3 "review this implementation before continuing"
+npm run handoff -- --latest --codex-subagents 3 "review this implementation before continuing"
 ```
 
 That adds guidance to the Codex prompt, but still asks Codex to use subagents only for disjoint review or exploration.

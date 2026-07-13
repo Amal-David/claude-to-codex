@@ -1,8 +1,8 @@
 {
   "name": "claude-to-codex",
-  "version": "0.1.0",
-  "private": false,
-  "description": "Claude to Codex handoff command for Claude Code.",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Resume Claude Code sessions, including Fable-to-Opus fallbacks, in Codex with policy-neutral context handoff.",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -24,12 +24,14 @@
   "keywords": [
     "claude-to-codex",
     "claude-code",
+    "claude-fable",
     "claude-code-plugin",
     "claude-code-skill",
     "claude-plugin",
     "claude-skill",
     "codex",
     "codex-cli",
+    "gpt-5.6",
     "openai-codex",
     "handoff",
     "agent-handoff",

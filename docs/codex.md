@@ -1,45 +1,32 @@
 # Codex Notes
 
-Claude to Codex starts Codex in interactive CLI mode with an initial prompt.
-
-The generated runner looks like:
+Claude to Codex opens an interactive Codex CLI session with a bounded initial prompt:
 
 ```bash
-codex -C /path/to/workspace "$(cat /path/to/codex-prompt.md)"
+codex -C /path/to/workspace -m gpt-5.6-sol "$(cat /path/to/codex-prompt.md)"
 ```
 
-Codex receives:
+The prompt contains only the workspace, session, context-file paths, model transition, neutral
+handoff reason, and continuation rules. Transcript prose, digest text, and the optional user note
+stay on disk rather than appearing in the process argument list.
 
-- current working directory
-- hot context path
-- git snapshot path
-- handoff manifest path
-- transcript path
-- digest path
-- recent digest
-- safety instructions
-- optional note
-- optional subagent budget
+Codex is instructed to read `hot-context.md` first, then use `handoff.json`, `git-snapshot.md`, and
+targeted transcript slices as needed. It must verify live branches, files, tests, PRs, and deployments
+before treating transcript claims as current.
 
-Codex should read `hot-context.md` first, then use `handoff.json` for structured metadata and
-`git-snapshot.md`/`digest.md` for deeper pointers.
+## Independent Policy Assessment
 
-## Why interactive Codex
+Codex receives the user's request, but not Claude's safety category or refusal explanation as
+guidance. It decides whether to comply, safeguard, or refuse under its own policies. A source-model
+refusal is neither authorization nor a binding refusal for Codex.
 
-Interactive Codex is the right continuation surface because the user can keep typing, approve or reject steps, inspect diffs, and ask Codex to spawn subagents.
+## Model And Authentication
 
-## Current-state verification
-
-Claude transcript facts can be stale. The generated prompt explicitly tells Codex to verify:
-
-- git branch and working tree
-- PR state
-- remote deployments
-- tests and builds
-- files changed since the transcript
+`-m` overrides the configured model for the launched session. `codex login status` is used by
+`--check` to verify that credentials are present. Model availability is ultimately confirmed by
+Codex at launch; tmux or Terminal dispatch alone is not reported as model acceptance.
 
 ## Subagents
 
-Codex subagents are explicit. Claude to Codex does not assume they should run. Use the direct Node CLI
-or `npm run handoff -- --codex-subagents <n>` from a repo checkout to give Codex a bounded budget
-and a user note describing why parallel work is useful.
+Subagents are off by default. `--codex-subagents <n>` adds a bounded budget hint, but Codex should
+use it only for disjoint work that saves main-thread context.
