@@ -17,8 +17,8 @@ This installs `SKILL.md` and its bundled launcher together under:
 ```
 
 Restart Claude Code, then run `/handoff`. The skill requires the active `CLAUDE_SESSION_ID` and
-does not silently select the newest transcript. Its public directory page is
-[skills.sh/amal-david/claude-to-codex](https://skills.sh/amal-david/claude-to-codex).
+does not silently select the newest transcript. Its public skill page is
+[skills.sh/amal-david/claude-to-codex/handoff](https://skills.sh/amal-david/claude-to-codex/handoff).
 
 ## Standalone
 

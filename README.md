@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Amal-David/claude-to-codex/actions/workflows/test.yml/badge.svg)](https://github.com/Amal-David/claude-to-codex/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-111827.svg)](LICENSE)
-[![skills.sh](https://skills.sh/b/amal-david/claude-to-codex)](https://skills.sh/amal-david/claude-to-codex)
+[![skills.sh](https://skills.sh/b/amal-david/claude-to-codex)](https://skills.sh/amal-david/claude-to-codex/handoff)
 ![Node 22+](https://img.shields.io/badge/node-22%2B-339933.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-skill%20%2B%20plugin-6b7280.svg)
 ![Codex CLI](https://img.shields.io/badge/Codex-CLI%20handoff-0ea5e9.svg)
@@ -68,7 +68,7 @@ Then restart Claude Code and run:
 /handoff
 ```
 
-See the public listing at [skills.sh/amal-david/claude-to-codex](https://skills.sh/amal-david/claude-to-codex).
+See the public skill page at [skills.sh/amal-david/claude-to-codex/handoff](https://skills.sh/amal-david/claude-to-codex/handoff).
 
 ### Option B: standalone `/handoff`
 

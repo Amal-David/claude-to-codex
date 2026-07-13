@@ -107,6 +107,10 @@ assert(
 );
 assert(readme.includes("https://skills.sh/b/amal-david/claude-to-codex"), "README must include the Skills.sh badge.");
 assert(
+  readme.includes("https://skills.sh/amal-david/claude-to-codex/handoff"),
+  "README must link directly to the published handoff skill."
+);
+assert(
   readme.includes("npx skills add Amal-David/claude-to-codex --global --agent claude-code --skill handoff --yes"),
   "README must document a deterministic Claude Code Skills CLI install."
 );
