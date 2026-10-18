@@ -8,6 +8,14 @@ import { fileURLToPath } from "node:url";
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const requiredFiles = [
+  "plugins/claude-to-codex/skills/handoff/scripts/codex-export.mjs",
+  "plugins/claude-to-codex/skills/handoff/scripts/handoff.mjs",
+  "plugins/claude-to-codex/skills/handoff/scripts/codex-history.mjs",
+  "plugins/claude-to-codex/skills/handoff/scripts/terminal.py",
+  "integrations/codex-handoff.md",
+  "scripts/agent-handoff",
+  "scripts/handoff-shell.sh",
+  "docs/bidirectional.md",
   ".claude-plugin/marketplace.json",
   ".github/workflows/release.yml",
   "plugins/claude-to-codex/.claude-plugin/plugin.json",

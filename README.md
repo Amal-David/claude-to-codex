@@ -7,8 +7,28 @@
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-skill%20%2B%20plugin-6b7280.svg)
 ![Codex CLI](https://img.shields.io/badge/Codex-CLI%20handoff-0ea5e9.svg)
 
-**Switch from Claude Code to Codex without losing context.** Claude to Codex adds one `/handoff`
-command that carries the active session into an interactive Codex terminal.
+**Switch between Claude Code CLI and Codex CLI without losing context.** Use
+`/handoff` in Claude or `$handoff` in Codex to open the opposite interactive CLI
+in the same project and terminal. Codex also supports the deterministic
+`!agent-handoff` shortcut when a model turn is unavailable.
+
+```sh
+npm run install:standalone
+# Open a new macOS Terminal window, then start in your project:
+codex   # or: claude
+```
+
+Requires Node.js 22+, Python 3.9+, and both native CLIs installed and authenticated.
+The installer enables [shell integration](docs/bidirectional.md) for zsh or bash,
+so ordinary interactive `codex` / `claude` launches automatically start the
+terminal supervisor. Existing shell configuration is preserved and backed up.
+Sessions already running before setup need one restart, optionally using native
+resume commands to retain their conversation. A captured shell tool cannot take
+over its parent terminal reliably. No GUI apps are used.
+
+[Bidirectional installation, usage, context storage, recovery and limitations](docs/bidirectional.md)
+is the guide for the complete workflow. The original Claude collector and advanced
+flags below remain available for compatibility and offline recovery.
 
 It selects the exact active conversation branch, detects model changes such as Fable 5 falling back
 to Opus 4.8, writes private hot context, captures one repository or a multi-repository workspace,
@@ -52,7 +72,8 @@ Prerequisites:
 - Claude Code installed and authenticated.
 - Codex CLI installed, on `PATH`, and authenticated with `codex login`.
 - Node.js 22 or newer.
-- Optional: tmux for same-terminal-pane workflows, or macOS Terminal for new-window launch fallback.
+- Python 3.9+ for managed, same-terminal bidirectional switching.
+- Optional: tmux for the legacy one-way terminal-window launcher.
 
 ### Option A: Skills.sh
 
@@ -72,7 +93,10 @@ See the public skill page at [skills.sh/amal-david/claude-to-codex/handoff](http
 
 ### Option B: standalone `/handoff`
 
-This gives the shortest command name.
+This installs both native handoff integrations and the same-terminal supervisor.
+Open a new Terminal window and start with `claude` or `codex`; invoke `/handoff`
+or `$handoff` respectively. Shell integration enables the supervisor automatically
+for interactive launches. See [the full guide](docs/bidirectional.md).
 
 ```bash
 git clone https://github.com/Amal-David/claude-to-codex.git
@@ -166,9 +190,9 @@ npm run handoff -- --latest --codex-subagents 3 "review efficiency and usability
 
 Modes:
 
-- `auto`: prefer a new tmux window, then a new macOS Terminal window, then print the command.
+- `auto`: use the active supervisor; outside managed mode, try tmux or an owned interactive terminal, otherwise report the launcher limitation.
 - `tmux`: force a tmux window.
-- `terminal`: force a macOS Terminal window.
+- `terminal`: use the current owned interactive terminal; captured shell output cannot host an interactive CLI.
 - `print`: write the handoff package and print the exact `sh .../run-codex.sh` command.
 
 Useful recovery options:
@@ -180,7 +204,7 @@ Useful recovery options:
 - `--latest`: explicitly choose the newest project transcript when no exact session id is available.
 - `--tail <n>`: include 3 to 200 recent turns/tool uses in the digest.
 - `--check`: validate Node, Codex, git, transcript discovery, handoff write access, and launch helpers.
-- `--no-launch`: write the handoff package and print the command without opening tmux or Terminal.
+- `--no-launch`: write the handoff package and print the command without launching another CLI.
 - `--help`: show command help.
 
 Developer/test options:
@@ -337,7 +361,7 @@ npm pack --dry-run
 
 Claude to Codex never needs cloud credentials. It reads local Claude transcript files under
 `~/.claude/projects`, writes local handoff packages under `~/.claude/handoffs`, and launches local
-processes such as `codex`, `tmux`, or macOS Terminal. Install it only from a repo you trust.
+processes such as `codex`, `claude`, or the terminal supervisor. Install it only from a repo you trust.
 
 Handoff directories and runners are written with `0700` permissions; context files use `0600`.
 Common API key, cloud credential, bearer token, and credential-bearing URL shapes are redacted, but

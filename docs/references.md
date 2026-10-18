@@ -68,3 +68,17 @@ Fable is a Claude model alias. Claude Code transcripts can include a structured 
 `claude-fable-5` to `claude-opus-4-8`, including refusal metadata. Claude to Codex preserves the
 neutral model transition but deliberately excludes the refusal category and explanation from the
 receiving prompt.
+
+## Bidirectional implementation checks (2026-10-17)
+
+- [Codex skill documentation](https://developers.openai.com/codex/skills/): native `$handoff` skill invocation and global discovery.
+- [Codex CLI reference](https://developers.openai.com/codex/cli/reference/): interactive initial prompt, project directory, model options.
+- [Claude CLI reference](https://code.claude.com/docs/en/cli-reference): interactive initial prompt and model options.
+- [Claude skills](https://code.claude.com/docs/en/skills): command substitutions, active-session identity and shell permission model.
+- [Claude hooks](https://code.claude.com/docs/en/hooks): reviewed for integration; no hook or internal-session injection is required.
+
+Installed `codex --help` (0.163.0) and `claude --help` (2.1.292) confirmed the interactive entry points. The PTY supervisor is project code, not a claim that either CLI provides process-replacement hooks.
+
+- [Codex native stdio export](https://developers.openai.com/codex/app-server/): `initialize`, `thread/read`, `thread/turns/list`, and legacy `includeTurns`; this implementation only reads existing threads.
+- [Codex shell environment source](https://github.com/openai/codex/blob/main/codex-rs/protocol/src/shell_environment.rs): exact `CODEX_THREAD_ID` injection and environment filtering.
+- [Codex protocol types](https://github.com/openai/codex/blob/main/codex-rs/protocol/src/protocol.rs): native rollback and tool evidence record definitions.

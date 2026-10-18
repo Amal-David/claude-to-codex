@@ -23,3 +23,8 @@ prompt that points at hot context, the handoff manifest, git snapshot, digest, a
 Source-model policy verdicts are excluded so Codex assesses the user's request independently. Run
 the direct Node CLI with `--check` to diagnose install, transcript, target model, Codex, git, and
 launcher prerequisites.
+
+For bidirectional same-terminal switching, install the standalone shell integration
+and start `claude` normally in a new terminal. The command automatically requests a switch
+from the active supervisor. In Codex use the installed `$handoff` skill.
+A captured shell tool cannot safely replace an unsupervised parent terminal UI.

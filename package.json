@@ -2,7 +2,7 @@
   "name": "claude-to-codex",
   "version": "0.2.0",
   "private": true,
-  "description": "Resume Claude Code sessions, including Fable-to-Opus fallbacks, in Codex with policy-neutral context handoff.",
+  "description": "Bidirectional Claude Code and Codex CLI handoffs with durable local context and an interactive terminal supervisor.",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -19,7 +19,9 @@
   "scripts": {
     "handoff": "node plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs",
     "install:standalone": "node scripts/install-standalone.mjs",
-    "test": "node --check plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs && node --check scripts/install-standalone.mjs && node --check scripts/validate.mjs && node scripts/validate.mjs && node scripts/smoke-test.mjs"
+    "test": "node scripts/run-tests.mjs",
+    "test:unit": "node --test test/unit/*.test.mjs",
+    "test:terminal": "python3 -m unittest discover -s test/terminal -p \"test_*.py\""
   },
   "keywords": [
     "claude-to-codex",
@@ -44,6 +46,7 @@
     "plugin"
   ],
   "bin": {
-    "claude-to-codex": "./plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs"
+    "claude-to-codex": "./plugins/claude-to-codex/skills/handoff/scripts/claude-to-codex.mjs",
+    "agent-handoff": "./plugins/claude-to-codex/skills/handoff/scripts/handoff.mjs"
   }
 }

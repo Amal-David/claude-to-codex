@@ -19,9 +19,14 @@ Common skill directories are:
 - `<project>/.claude/skills/handoff`
 - `$HOME/.agents/skills/handoff`
 
+For same-terminal bidirectional switching, use the standalone installation's
+shell integration and start `claude` normally in a new terminal. The bundled collector automatically uses the
+active terminal supervisor. It ends the current CLI after capturing context;
+do not initiate a handoff during an active long-running command.
+
 Require a non-empty `CLAUDE_SESSION_ID`; do not silently choose the newest transcript. The launcher writes a
 private package under `~/.claude/handoffs`, resolves the target model from `CLAUDE_TO_CODEX_MODEL` or Codex
-config, and dispatches Codex when a supported launcher is available. Relay the launcher result and manual
+config, and dispatches Codex when a supported terminal launcher is available. No desktop apps are used. Relay the launcher result and manual
 fallback command exactly.
 
 The Claude Code plugin provides the deterministic namespaced command:

@@ -1,6 +1,20 @@
 # Architecture
 
-Claude to Codex is a command-backed Claude Code skill with a deterministic local collector.
+Claude to Codex uses deterministic local collectors and a PTY supervisor for
+bidirectional terminal CLI handoffs. `handoff.mjs` prepares a package and writes a
+request in the supervisor's private temporary control directory. `terminal.py`
+authenticates its generation nonce, validates the chain and workspace, confirms
+the destination executable, acknowledges the request, terminates the source,
+and starts the destination on a new PTY attached to the same terminal. It
+forwards keyboard input, output and resize events and restores terminal modes.
+
+Each supervisor run creates a stable chain UUID. `transfer.json` links to the
+previous transfer and records the original objective and source fingerprint.
+The recent evidence is bounded, while original transcripts and earlier packages
+remain available by reference. No internal agent database is modified. JSONL rollouts are read directly; paginated histories use documented read-only
+`codex app-server` stdio methods. Unknown or unexportable formats fail closed. See [the shared context contract](bidirectional.md).
+
+The original Claude-source collector remains compatible as follows.
 
 ## Flow
 
@@ -10,11 +24,10 @@ Claude to Codex is a command-backed Claude Code skill with a deterministic local
 4. It writes a private handoff package under `~/.claude/handoffs`.
 5. It captures one Git repository or immediate child repositories when the current directory is an orchestration workspace.
 6. It resolves the Codex target from `--codex-model`, `CLAUDE_TO_CODEX_MODEL`, Codex config, or the Codex default.
-7. It dispatches a portable `sh` runner to tmux or macOS Terminal, or prints the runner path.
+7. Managed mode routes the package through the supervisor. Legacy standalone modes use tmux, an owned terminal, or report an actionable limitation.
 
 Launcher success means the command was dispatched. The user should confirm the interactive Codex
-session is ready; the collector does not claim that Codex accepted a model merely because Terminal
-or tmux returned successfully.
+session is ready; the collector does not claim that Codex accepted a model merely because a terminal launcher returned successfully.
 
 ## Package
 

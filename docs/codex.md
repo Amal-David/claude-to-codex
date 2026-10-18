@@ -1,5 +1,8 @@
 # Codex Notes
 
+Use `$handoff` in a supervised Codex session to continue in Claude Code CLI.
+See [bidirectional usage](bidirectional.md).
+
 Claude to Codex opens an interactive Codex CLI session with a bounded initial prompt:
 
 ```bash
@@ -24,7 +27,7 @@ refusal is neither authorization nor a binding refusal for Codex.
 
 `-m` overrides the configured model for the launched session. `codex login status` is used by
 `--check` to verify that credentials are present. Model availability is ultimately confirmed by
-Codex at launch; tmux or Terminal dispatch alone is not reported as model acceptance.
+Codex at launch; terminal dispatch alone is not reported as model acceptance.
 
 ## Subagents
 

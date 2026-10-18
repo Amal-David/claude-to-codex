@@ -6,6 +6,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 import { StringDecoder } from "node:string_decoder";
 
 const SESSION_ENV_CANDIDATES = [
@@ -16,6 +17,7 @@ const SESSION_ENV_CANDIDATES = [
 ];
 
 const SECRET_PATTERNS = [
+  /((?:["']?(?:api[_-]?key|access[_-]?key|secret[_-]?key|token|secret|password|credentials)["']?)\s*[:=]\s*["']?)[^\s"',}]{8,}/gi,
   /\bsk-[A-Za-z0-9_-]{12,}/g,
   /\bsk_(?:live|test)_[A-Za-z0-9_-]{12,}/g,
   /\bnpm_[A-Za-z0-9]{20,}/g,
@@ -983,7 +985,7 @@ function findTranscript(sessionId, cwd, explicitTranscript = null) {
     return resolved;
   }
 
-  const projectsDir = path.join(os.homedir(), ".claude", "projects");
+  const projectsDir = path.join(process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), ".claude"), "projects");
   const slug = projectSlug(cwd);
   const projectDir = path.join(projectsDir, slug);
 
@@ -1047,7 +1049,11 @@ function summarizeTool(tool) {
 function summarizeToolResult(result, toolSummary = "unknown tool", evidenceStatus = "unknown") {
   const resultText = textParts(result.content).join("\n").trim();
   const status = evidenceStatus.toUpperCase();
-  return `${toolSummary} -> ${status}: ${clip(resultText || "no text output", 600)}`;
+  // Test runners commonly put their verdict at the end. Retain both ends of
+  // long output so a bounded digest keeps the command context and final totals.
+  const normalized = redact(resultText || "no text output").replace(/\s+/g, " ").trim();
+  const evidence = normalized.length > 600 ? `${normalized.slice(0, 380)} ... [middle omitted; recover from transcript] ... ${normalized.slice(-160)}` : normalized;
+  return `${toolSummary} -> ${status}: ${evidence}`;
 }
 
 function toolResultStatus(result, event) {
@@ -1192,6 +1198,7 @@ function analyzeTranscript(transcriptPath, tail = 28) {
   let activeMessageCount = 0;
   let ignoredBranchMessageCount = 0;
   let activeTextCount = 0;
+  let firstUserText = null;
 
   forEachJsonlLine(transcriptPath, (line) => {
     if (!line.trim()) {
@@ -1372,6 +1379,9 @@ function analyzeTranscript(transcriptPath, tail = 28) {
       const item = { line: lineCount, timestamp, role, text: clip(text, 1000) };
       pushLimited(recentText, item, tail);
       if (role === "user") {
+        if (!event.isMeta && !event.isCompactSummary && !/^\s*<(?:local-command|command-name|system-reminder)/.test(text)) {
+          firstUserText ??= clipBlock(text, 12000).text;
+        }
         pushLimited(latestUserTurns, item, 5);
       }
       for (const group of HANDOFF_SIGNAL_GROUPS) {
@@ -1443,6 +1453,7 @@ function analyzeTranscript(transcriptPath, tail = 28) {
     recentToolResults,
     verificationTools,
     latestUserTurns,
+    firstUserText,
     continuationSignals,
     activeTextCount,
     sourcePolicyClaimCount,
@@ -1926,7 +1937,7 @@ function writeHandoffPackage({
   codexTarget
 }) {
   const shortSession = sessionId ? sessionId.slice(0, 8) : "latest";
-  const dir = path.join(handoffRoot, `${timestampSlug()}-${shortSession}`);
+  let dir;
   const analysis = analyzeStableTranscript(transcript, tail);
   if (analysis.parsedEventCount === 0) {
     throw new Error(`Claude transcript contains no valid JSONL events: ${transcript}`);
@@ -1940,6 +1951,7 @@ function writeHandoffPackage({
   const projectArtifacts = discoverWorkspaceProjectArtifacts(cwd, gitSnapshot);
 
   fs.mkdirSync(handoffRoot, { recursive: true, mode: 0o700 });
+  dir = fs.mkdtempSync(path.join(handoffRoot, `${timestampSlug()}-${shortSession}-`));
   ensurePrivateDirectory(dir);
   const digestPath = path.join(dir, "digest.md");
   const hotContextPath = path.join(dir, "hot-context.md");
@@ -2191,15 +2203,10 @@ function runSelfCheck(options) {
     commandAvailable("tmux") ? "pass" : "warn",
     "tmux",
     commandAvailable("tmux") ? "available on PATH" : "not found on PATH",
-    "Auto mode can still use macOS Terminal or print a manual command."
+    "Start agent-handoff claude for automatic same-terminal switching."
   );
-  addCheck(
-    checks,
-    process.platform === "darwin" && commandAvailable("osascript") ? "pass" : "warn",
-    "macOS Terminal launcher",
-    process.platform === "darwin" && commandAvailable("osascript") ? "available" : "not available",
-    "Auto mode will print the runner command if no launcher is available."
-  );
+  addCheck(checks, process.env.HANDOFF_CONTROL ? "pass" : "warn", "Terminal supervisor",
+    process.env.HANDOFF_CONTROL ? "active" : "not active", "Start with agent-handoff claude for bidirectional switching.");
 
   const failures = checks.filter((check) => check.status === "fail").length;
   const warnings = checks.filter((check) => check.status === "warn").length;
@@ -2233,23 +2240,13 @@ function launchTmux(runnerPath) {
 }
 
 function launchTerminal(runnerPath) {
-  if (process.platform !== "darwin") {
-    return { ok: false, reason: "macOS Terminal launch is only available on darwin." };
+  if (!process.stdin.isTTY || !process.stdout.isTTY) {
+    return { ok: false, reason: "No owned interactive terminal. Start with agent-handoff claude, then run /handoff." };
   }
-  if (!commandAvailable("osascript")) {
-    return { ok: false, reason: "osascript is not available." };
-  }
-  const appleScript = [
-    'tell application "Terminal"',
-    "activate",
-    `do script ${JSON.stringify(`sh ${shellQuote(runnerPath)}`)}`,
-    "end tell"
-  ].join("\n");
-  const result = spawnSync("osascript", ["-e", appleScript], { encoding: "utf8" });
-  if (result.status !== 0) {
-    return { ok: false, reason: result.stderr.trim() || result.stdout.trim() || "Terminal launch failed." };
-  }
-  return { ok: true, method: "terminal", detail: "Codex launch command dispatched to a new Terminal window; confirm the interactive session is ready there." };
+  const result = spawnSync("sh", [runnerPath], { stdio: "inherit" });
+  return result.status === 0
+    ? { ok: true, method: "terminal", detail: "Interactive Codex CLI exited normally in this terminal." }
+    : { ok: false, reason: `Interactive Codex CLI failed: ${result.error?.message ?? result.status}` };
 }
 
 function launch(packageInfo, mode) {
@@ -2285,11 +2282,11 @@ function launch(packageInfo, mode) {
   return {
     ok: false,
     method: "print",
-    reason: `Auto launch could not start tmux or Terminal. tmux: ${tmuxResult.reason} Terminal: ${terminalResult.reason}`
+    reason: `Auto launch could not acquire a terminal. tmux: ${tmuxResult.reason} Terminal: ${terminalResult.reason}`
   };
 }
 
-function main() {
+async function main() {
   const options = parseArgs(process.argv.slice(2));
   if (options.help) {
     console.log(usage());
@@ -2303,6 +2300,16 @@ function main() {
     return;
   }
 
+  if (process.env.HANDOFF_CONTROL && options.launch) {
+    const { prepare, requestTransfer } = await import("./handoff.mjs");
+    const info = await prepare({ source: "claude", cwd: options.cwd, session: options.session,
+      transcript: options.transcript, codexModel: options.codexModel,
+      tail: options.tail, note: options.note, codexSubagents: options.codexSubagents, reason: options.reason });
+    console.log(`Context transferred locally: ${info.manifestPath}`);
+    await requestTransfer(info);
+    console.log("Switching terminal to Codex CLI…");
+    return;
+  }
   const cwd = path.resolve(options.cwd);
   let cwdStat;
   try {
@@ -2384,9 +2391,11 @@ function main() {
   console.log(lines.join("\n"));
 }
 
-try {
-  main();
-} catch (error) {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exit(1);
+export { collectGitSnapshot, redact, writeHandoffPackage, resolveCodexTarget, shellQuote, fingerprintFile, findTranscript };
+
+if (process.argv[1] && fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch(error => {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  });
 }

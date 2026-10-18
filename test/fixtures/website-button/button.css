@@ -1,0 +1,2 @@
+button { padding: 0.75rem 1.25rem; color: white; background: #164e9b; border: 0; border-radius: 0.4rem; }
+button:focus-visible { outline: 3px solid #ffbf47; outline-offset: 3px; }

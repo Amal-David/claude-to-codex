@@ -1,5 +1,14 @@
 # Installation And Distribution
 
+For bidirectional same-terminal operation, use the standalone installer and
+open a new Terminal window and start `codex` or `claude` normally. It installs both native
+integrations. See [the complete guide](bidirectional.md) for automatic shell
+functions, dependencies, storage, configuration and troubleshooting.
+
+The Skills.sh and plugin installs below preserve the original Claude collector.
+They include its runtime but do not install the global Codex skill or shell
+launcher; use standalone installation for the full round trip.
+
 Claude to Codex supports three installation modes.
 
 ## Skills.sh
@@ -36,7 +45,8 @@ cd claude-to-codex
 npm run install:standalone
 ```
 
-This copies:
+This copies the following legacy files, plus the shared runtime, Codex skill
+under `~/.agents/skills/handoff`, and `~/.local/bin/agent-handoff`:
 
 ```text
 ~/.claude/commands/handoff.md
@@ -45,8 +55,8 @@ This copies:
 ```
 
 Existing destination files are retained beside the new files as timestamped `.backup-*` copies.
-Installation stages every file before replacing any destination and rolls back on failure. Restart
-Claude Code after installing.
+Installation stages every file before replacing any destination and rolls back on failure. Start
+`agent-handoff claude` or `agent-handoff codex` after installing.
 
 The standalone slash command is zero-argument for shell safety. Use the direct Node CLI for recovery
 flags such as `--session`, `--transcript`, `--latest`, `--mode print`, and `--tail`.

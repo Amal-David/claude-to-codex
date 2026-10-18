@@ -7,7 +7,7 @@
     {
       "name": "claude-to-codex",
       "source": "./plugins/claude-to-codex",
-      "description": "Switch from Claude Code to Codex without losing context with one /handoff command."
+      "description": "Local terminal CLI handoffs between Claude Code and Codex."
     }
   ]
 }

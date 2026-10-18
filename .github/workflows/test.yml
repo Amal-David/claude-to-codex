@@ -1,15 +1,14 @@
-name: test
-
-on:
-  push:
-  pull_request:
-
+name: Test
+on: [push, pull_request]
 jobs:
-  smoke:
-    runs-on: ubuntu-latest
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with:
-          node-version: "22"
+          node-version: 22
       - run: npm test

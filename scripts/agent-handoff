@@ -1,0 +1,2 @@
+#!/bin/sh
+exec node "$HOME/.claude/skills/claude-to-codex/scripts/handoff.mjs" "$@"
